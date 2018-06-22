@@ -1,4 +1,5 @@
 # AFM communicates with NOVA
+0. Do experiment prepation for both AFM and NOVA
 1. AFM calculates a position matrix and then reaches the 1st position.
 2. Do Approach and settle some time (wait for servo to be stable).
 3. Send a signal to trigger NOVA to do an electrochemical experiment. Meanwhile, AFM will hold the current position.
