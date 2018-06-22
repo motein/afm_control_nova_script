@@ -1,4 +1,4 @@
-# AFM commnucates with NOVA
+# AFM communicates with NOVA
 1. AFM calculates a position matrix and then reaches the 1st position.
 2. Do Approach and settle some time.
 3. Send a signal to trigger NOVA to do an electrochemical experiment.
