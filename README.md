@@ -8,7 +8,7 @@
 5. AFM will use a polling way to check if 'state_fin' exists. Each check will sleep about 0.5 second.
 6. If 'state_fin' exists, delete it.
 7. Do Withdraw and move AFM tip to the next position.
-8. Repeat from the 2nd step until all positions have been operated.
+8. Repeat from the 2nd step until all positions have been handled.
 
 ## Workflow 2
 0. Do experiment preparation for both AFM and NOVA
@@ -20,4 +20,11 @@
 6. AFM will use a polling way to check if 'state_fin' exists. Each check will sleep about 0.5 second.
 7. If 'state_fin' exists, delete it.
 8. Move AFM tip to the next position.
-9. Repeat from the 3nd step until all positions have been operated.
+9. Repeat from the 3nd step until all positions have handled.
+
+
+## Script Dependencies
+1. Python 2.7
+2. Scipy
+3. Numpy
+4. MinGW
