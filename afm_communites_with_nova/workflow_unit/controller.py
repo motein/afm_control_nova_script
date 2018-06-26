@@ -19,8 +19,6 @@ class AFMController:
         self.setpoint = 1
         self.matrix_X = np.empty() # fast
         self.matrix_Y = np.empty() # slow
-        self.settling_time_for_approach = 1
-        self.settling_time_for_move = 1
         self.angle = None
         self.width = None
         self.center_x = None
@@ -29,15 +27,17 @@ class AFMController:
         
         
     def prepareAfmExperiment(self):
-        picoscript.SetServoSetpoint(self.setpoint)
+        self.setpoint = picoscript.GetServoSetpoint()
         self.angle = picoscript.GetScanAngle()
         self.width = picoscript.GetScanSize()
         self.center_x = picoscript.GetScanXOffset()
         self.center_y = picoscript.GetScanYOffset()
     
-    def doApproach(self):
+    def doApproach(self, setpoint = None):
+        if setpoint is not None:
+            picoscript.SetServoSetpoint(setpoint)
+            
         picoscript.MotorApproach()
-        time.sleep(self.settling_time_for_approach)
     
     def doWithdraw(self):
         picoscript.MotorWithdraw(self)
@@ -85,7 +85,6 @@ class AFMController:
     
     def moveTip(self, fast, slow):
         picoscript.SetTipPosition(fast, slow)
-        time.sleep(self.settling_time_for_move)
     
     def sendTriggerSingal(self):
         picoscript.SetOutputAux1(5) # Trigger a signal
