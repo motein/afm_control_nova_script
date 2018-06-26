@@ -45,7 +45,7 @@ class Commands:
         if matrix_type == Matrix_Type.MATRIX_8_8:
             Commands.__calcSpecifedPositionMatrix(8)
         elif matrix_type == Matrix_Type.MATRIX_16_16:
-            Commands.__calcSpecifedPositionMatrix(8)
+            Commands.__calcSpecifedPositionMatrix(16)
         else:
             print("Not supported yet")
             sys.exit()
