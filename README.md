@@ -20,7 +20,7 @@
 6. AFM will use a polling way to check if 'state_fin' exists. Each check will sleep about 0.5 second.
 7. If 'state_fin' exists, delete it.
 8. Move AFM tip to the next position.
-9. Repeat from the 3nd step until all positions have handled.
+9. Repeat from the 3nd step until all positions have been handled.
 
 
 ## Script Dependencies
