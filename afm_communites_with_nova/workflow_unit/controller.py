@@ -13,7 +13,7 @@ class Matrix_Type(Enum):
     MATRIX_8_8 = 1
     MATRIX_16_16 = 2
     
-class Commands:
+class AFMController:
     def __init__(self):
         self.matrix_type = Matrix_Type.MATRIX_8_8
         self.setpoint = 1
@@ -25,6 +25,7 @@ class Commands:
         self.width = None
         self.center_x = None
         self.center_y = None
+        self.points_number = None
         
         
     def prepareAfmExperiment(self):
@@ -43,29 +44,31 @@ class Commands:
     
     def calcPositionMatrix(self, matrix_type):
         if matrix_type == Matrix_Type.MATRIX_8_8:
-            Commands.__calcSpecifedPositionMatrix(8)
+            self.points_number = 8
+            AFMController.__calcSpecifedPositionMatrix()
         elif matrix_type == Matrix_Type.MATRIX_16_16:
-            Commands.__calcSpecifedPositionMatrix(16)
+            self.points_number = 16
+            AFMController.__calcSpecifedPositionMatrix()
         else:
             print("Not supported yet")
             sys.exit()
     
-    def __calcSpecifedPositionMatrix(self, points_number):
-        self.matrix_X = np.zeros(points_number, points_number)
-        self.matrix_Y = np.zeros(points_number, points_number)
+    def __calcSpecifedPositionMatrix(self):
+        self.matrix_X = np.zeros(self.points_number, self.points_number)
+        self.matrix_Y = np.zeros(self.points_number, self.points_number)
         start_x = self.center_x - self.width / 2
         start_y = self.center_y - self.width / 2
-        step_size = self.width / (points_number - 1) # minus 1
+        step_size = self.width / (self.points_number - 1) # minus 1
         # Initialize
-        for i in range(points_number):
-            for j in range(points_number):
+        for i in range(self.points_number):
+            for j in range(self.points_number):
                 self.matrix_X[i, j] = start_x + j * step_size
                 self.matrix_X[i, j] = start_y + j * step_size
                 
         rotation = self.__create_rotation_matrix()
         # Rotate an angle
-        for i in range(points_number):
-            for j in range(points_number):
+        for i in range(self.points_number):
+            for j in range(self.points_number):
                 original = np.matrix([self.matrix_X[i, j], self.matrix_Y[i, j]])
                 transformed = np.matmul(original, rotation)
                 self.matrix_X[i, j] = transformed[0]
@@ -77,8 +80,8 @@ class Commands:
         rotation = np.array(((c,-s), (s, c)))
         return rotation
     
-    def getPositionbyIndex(self, index):
-        return [index, 1]
+    def getPositionbyIndex(self, x_index, y_index):
+        return self.matrix_X[x_index, y_index], self.matrix_Y[x_index, y_index]
     
     def moveTip(self, fast, slow):
         picoscript.SetTipPosition(fast, slow)
@@ -88,3 +91,6 @@ class Commands:
         picoscript.SetOutputAux1(5) # Trigger a signal
         time.sleep(1)
         picoscript.SetOutputAux1(0)
+        
+    def getPointsNumber(self):
+        return self.points_number
