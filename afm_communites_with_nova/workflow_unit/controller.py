@@ -6,6 +6,7 @@ Created on Jun 23, 2018
 import sys
 import picoscript
 import time
+import logging
 import numpy as np
 from enum import Enum
 
@@ -15,6 +16,7 @@ class Matrix_Type(Enum):
     
 class AFMController:
     def __init__(self):
+        logging.basicConfig(filename='afm_nova.log',level=logging.DEBUG) # Log system
         self.matrix_type = Matrix_Type.MATRIX_8_8
         self.setpoint = 1
         self.matrix_X = np.empty(shape=[0, 0]) # fast
@@ -51,6 +53,7 @@ class AFMController:
             self.__calcSpecifedPositionMatrix()
         else:
             print("Not supported yet")
+            logging.warning("Not supported yet")
             sys.exit()
     
     def __calcSpecifedPositionMatrix(self):
@@ -84,7 +87,9 @@ class AFMController:
         c, s = np.cos(theta), np.sin(theta)
         rotation = np.array(((c,-s), (s, c)))
         return rotation
-    
+    '''
+    Index starts from 0
+    '''
     def getPositionbyIndex(self, x_index, y_index):
         return self.matrix_X[x_index, y_index], self.matrix_Y[x_index, y_index]
     
