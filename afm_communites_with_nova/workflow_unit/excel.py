@@ -4,8 +4,6 @@ Created on Jun 28, 2018
 
 @author: Xor
 '''
-import xlrd
-import xlwt
 from openpyxl import load_workbook
 import numpy as np
 
@@ -23,4 +21,13 @@ def read_excel_file(file_path, sheet_name):
     data_matrix = np.matrix(data_list)
 #     print(data_matrix)
     return data_matrix
+
+def validate_matrix(data_matrix, points_number):
+    row_column = data_matrix.shape
+    result = True
+    if row_column[0] != points_number and row_column[1] != points_number:
+        result = False
+    
+    return result, row_column
+    
     
