@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//gui_unit/__init__.py=UTF-8
+encoding//gui_unit/application.py=UTF-8
+encoding//workflow_unit/__init__.py=UTF-8
+encoding//workflow_unit/controller.py=UTF-8
+encoding//workflow_unit/excel.py=UTF-8
+encoding//workflow_unit/test_controller.py=UTF-8
+encoding//workflow_unit/test_excel.py=UTF-8
+encoding//workflow_unit/workflow.py=UTF-8
