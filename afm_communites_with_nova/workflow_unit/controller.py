@@ -17,7 +17,7 @@ class Matrix_Type(Enum):
     
 class AFMController:
     def __init__(self):
-        logging.basicConfig(filename='afm_nova.log',level=logging.DEBUG) # Log system
+        logging.basicConfig(filename='../data/afm_nova.log',level=logging.DEBUG) # Log system
         self.matrix_type = Matrix_Type.MATRIX_8_8
         self.setpoint = 1
         self.matrix_X = np.empty(shape=[0, 0]) # fast

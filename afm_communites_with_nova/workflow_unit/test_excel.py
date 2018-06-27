@@ -10,7 +10,7 @@ from excel import read_excel_file
 
 class TestExcelMethods(unittest.TestCase):
     def test_read_excel_file(self):
-        data_matrix = read_excel_file('test.xlsx', 'setpoints')
+        data_matrix = read_excel_file('../data/test.xlsx', 'setpoints')
         print(data_matrix)
     
 if __name__ == '__main__':
