@@ -75,7 +75,7 @@
       <rect>
        <x>20</x>
        <y>50</y>
-       <width>71</width>
+       <width>81</width>
        <height>16</height>
       </rect>
      </property>
@@ -231,17 +231,37 @@
      </property>
      <item>
       <property name="text">
-       <string> 8 × 8</string>
+       <string>    8 × 8</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>16 × 16</string>
+       <string>  16 × 16</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>32 × 32 </string>
+       <string>  32 × 32</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>  64 × 64</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>128 × 128</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>256 × 256</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>512 × 512</string>
       </property>
      </item>
     </widget>
