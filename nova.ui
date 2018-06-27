@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>Form</class>
  <widget class="QWidget" name="Form">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -171,7 +174,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>220</y>
+      <y>200</y>
       <width>391</width>
       <height>81</height>
      </rect>
@@ -270,9 +273,9 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>340</y>
+      <y>310</y>
       <width>391</width>
-      <height>121</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="font">
@@ -296,7 +299,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>90</y>
+       <y>80</y>
        <width>101</width>
        <height>16</height>
       </rect>
@@ -319,7 +322,7 @@
      <property name="geometry">
       <rect>
        <x>110</x>
-       <y>90</y>
+       <y>80</y>
        <width>151</width>
        <height>20</height>
       </rect>
@@ -339,7 +342,7 @@
      <property name="geometry">
       <rect>
        <x>280</x>
-       <y>90</y>
+       <y>80</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -362,7 +365,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>50</y>
+       <y>40</y>
        <width>161</width>
        <height>16</height>
       </rect>
@@ -376,6 +379,46 @@
      </property>
      <property name="text">
       <string>Enable Setpoint Matrix</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>120</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Sheet Name:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_6">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>120</y>
+       <width>151</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Times New Roman</family>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
      </property>
     </widget>
    </widget>
