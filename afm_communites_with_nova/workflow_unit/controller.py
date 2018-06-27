@@ -54,8 +54,8 @@ class AFMController:
             sys.exit()
     
     def __calcSpecifedPositionMatrix(self):
-        self.matrix_X = np.zeros(self.points_number, self.points_number)
-        self.matrix_Y = np.zeros(self.points_number, self.points_number)
+        self.matrix_X = np.zeros(shape=[self.points_number, self.points_number])
+        self.matrix_Y = np.zeros(shape=[self.points_number, self.points_number])
         start_x = self.center_x - self.width / 2
         start_y = self.center_y - self.width / 2
         step_size = self.width / (self.points_number - 1) # minus 1
@@ -63,16 +63,21 @@ class AFMController:
         for i in range(self.points_number):
             for j in range(self.points_number):
                 self.matrix_X[i, j] = start_x + j * step_size
-                self.matrix_X[i, j] = start_y + j * step_size
+                self.matrix_Y[i, j] = start_y + j * step_size
                 
         rotation = self.__create_rotation_matrix()
+#         print(rotation)
         # Rotate an angle
         for i in range(self.points_number):
             for j in range(self.points_number):
                 original = np.matrix([self.matrix_X[i, j], self.matrix_Y[i, j]])
+#                 print(original[0])
+#                 print(original[0,0])
+#                 print(original[0,1])
                 transformed = np.matmul(original, rotation)
-                self.matrix_X[i, j] = transformed[0]
-                self.matrix_Y[i, j] = transformed[1]
+#                 print(transformed)
+                self.matrix_X[i, j] = transformed[0, 0]
+                self.matrix_Y[i, j] = transformed[0, 1]
         
     def __create_rotation_matrix(self):
         theta = np.radians(self.angle)
