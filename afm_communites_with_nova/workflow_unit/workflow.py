@@ -27,7 +27,9 @@ class Workflow:
         self.high_vol = 5
         self.low_vol = 0
         self.holding_time = 1 # time of holding high voltage
-        
+    '''
+    Start to do the experiment
+    '''    
     def start_to_work(self):
         self.afm_controller.prepareAfmExperiment()
         self.afm_controller.calcPositionMatrix(self.position_matrix_type)
@@ -51,8 +53,9 @@ class Workflow:
                 
                 self.afm_controller.doWithdraw()
         
-        print("Done")
-        
+    '''
+    Prepare experiments. Set functions
+    '''
     def set_state_path(self, state_path):
         self.state_path = state_path
     

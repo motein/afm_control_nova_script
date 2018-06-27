@@ -17,8 +17,8 @@ class AFMController:
     def __init__(self):
         self.matrix_type = Matrix_Type.MATRIX_8_8
         self.setpoint = 1
-        self.matrix_X = np.empty() # fast
-        self.matrix_Y = np.empty() # slow
+        self.matrix_X = np.empty(shape=[0, 0]) # fast
+        self.matrix_Y = np.empty(shape=[0, 0]) # slow
         self.angle = None
         self.width = None
         self.center_x = None
@@ -45,10 +45,10 @@ class AFMController:
     def calcPositionMatrix(self, matrix_type):
         if matrix_type == Matrix_Type.MATRIX_8_8:
             self.points_number = 8
-            AFMController.__calcSpecifedPositionMatrix()
+            self.__calcSpecifedPositionMatrix()
         elif matrix_type == Matrix_Type.MATRIX_16_16:
             self.points_number = 16
-            AFMController.__calcSpecifedPositionMatrix()
+            self.__calcSpecifedPositionMatrix()
         else:
             print("Not supported yet")
             sys.exit()
