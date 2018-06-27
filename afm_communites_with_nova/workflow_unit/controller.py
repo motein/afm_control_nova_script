@@ -86,10 +86,10 @@ class AFMController:
     def moveTip(self, fast, slow):
         picoscript.SetTipPosition(fast, slow)
     
-    def sendTriggerSingal(self):
-        picoscript.SetOutputAux1(5) # Trigger a signal
-        time.sleep(1)
-        picoscript.SetOutputAux1(0)
+    def sendTriggerSingal(self, high_vol, low_vol, holding_time):
+        picoscript.SetOutputAux1(high_vol) # Trigger a signal
+        time.sleep(holding_time)
+        picoscript.SetOutputAux1(low_vol)
         
     def getPointsNumber(self):
         return self.points_number
