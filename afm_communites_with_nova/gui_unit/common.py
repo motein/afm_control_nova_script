@@ -17,7 +17,10 @@ def show_message(message_wrapper):
     message = message_wrapper.value
     if (isinstance(message, tuple)):
         message = message[0]
-    msgBox.setText("Message: " + message)
+    try:
+        msgBox.setText("Message: " + message)
+    except Exception as e:
+        msgBox.setText("Exception: " + e.message)
     msgBox.exec_()
 
 class PathWrapper:
