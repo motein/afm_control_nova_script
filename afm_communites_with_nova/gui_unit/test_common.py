@@ -11,15 +11,21 @@ from gui_unit.common import select_directory, select_file, show_message, PathWra
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(564, 435)
+        Form.resize(500, 400)
+        
         self.path = PathWrapper("")
-        self.select_button = QtGui.QPushButton(Form)
-        self.select_button.setGeometry(QtCore.QRect(250, 170, 211, 20))
-        self.select_button.setObjectName("Select File")
-        self.select_button.clicked.connect(partial(select_directory, self.path))
+        self.select_file_button = QtGui.QPushButton(Form)
+        self.select_file_button.setGeometry(QtCore.QRect(140, 170, 100, 40))
+        self.select_file_button.setObjectName("Select File")
+        self.select_file_button.clicked.connect(partial(select_file, self.path))
+        
+        self.select_path_button = QtGui.QPushButton(Form)
+        self.select_path_button.setGeometry(QtCore.QRect(260, 170, 100, 40))
+        self.select_path_button.setObjectName("Select Path")
+        self.select_path_button.clicked.connect(partial(select_directory, self.path))
         
         self.show_button = QtGui.QPushButton(Form)
-        self.show_button.setGeometry(QtCore.QRect(380, 270, 75, 23))
+        self.show_button.setGeometry(QtCore.QRect(200, 220, 100, 40))
         self.show_button.setObjectName("Show Button")
         self.show_button.clicked.connect(partial(show_message, self.path))
 
@@ -27,9 +33,10 @@ class Ui_Form(object):
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.select_button.setText(QtGui.QApplication.translate("Form", "PushButton", None, QtGui.QApplication.UnicodeUTF8))
-        self.show_button.setText(QtGui.QApplication.translate("Form", "PushButton", None, QtGui.QApplication.UnicodeUTF8))
+        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Select Form", None, QtGui.QApplication.UnicodeUTF8))
+        self.select_file_button.setText(QtGui.QApplication.translate("Form", "Select File", None, QtGui.QApplication.UnicodeUTF8))
+        self.select_path_button.setText(QtGui.QApplication.translate("Form", "Select Path", None, QtGui.QApplication.UnicodeUTF8))
+        self.show_button.setText(QtGui.QApplication.translate("Form", "Show Button", None, QtGui.QApplication.UnicodeUTF8))
 
 def test():
     app = QtGui.QApplication(sys.argv)
