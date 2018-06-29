@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'robot.ui'
-#
-# Created: Fri Jun 29 11:30:27 2018
-#      by: pyside-uic 0.2.15 running on PySide 1.2.4
-#
-# WARNING! All changes made in this file will be lost!
-
 from PySide import QtCore, QtGui
+from functools import partial
+from gui_unit.common import PathWrapper, select_directory, select_file, show_message, show_value
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -48,10 +43,12 @@ class Ui_Form(object):
         self.stateFolderLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.stateFolderLineEdit.setObjectName("stateFolderLineEdit")
         
+        self.selected_folder = PathWrapper("") # Store folder path info
         self.selectFolderButton = QtGui.QPushButton(self.stateGroupBox)
         self.selectFolderButton.setGeometry(QtCore.QRect(280, 50, 75, 23))
         self.selectFolderButton.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.selectFolderButton.setObjectName("selectFolderButton")
+        self.selectFolderButton.clicked.connect(partial(select_directory, self.selected_folder, self.selected_folder_callback)) # Click event
         
         self.checkIntervalLabel = QtGui.QLabel(self.stateGroupBox)
         self.checkIntervalLabel.setGeometry(QtCore.QRect(20, 90, 81, 16))
@@ -101,6 +98,7 @@ class Ui_Form(object):
         self.enableMatrixSetpoingRadio.setGeometry(QtCore.QRect(20, 40, 161, 16))
         self.enableMatrixSetpoingRadio.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.enableMatrixSetpoingRadio.setObjectName("enableMatrixSetpoingRadio")
+        self.enableMatrixSetpoingRadio.toggled.connect(self.enableMatrixSetpoingChanged)
         
         self.filePathLabel = QtGui.QLabel(self.setpointSettingsGroupBox)
         self.filePathLabel.setGeometry(QtCore.QRect(20, 80, 101, 16))
@@ -113,11 +111,13 @@ class Ui_Form(object):
         self.filePathLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.filePathLineEdit.setObjectName("filePathLineEdit")
         
+        self.selected_file = PathWrapper("")
         self.selectFileButton = QtGui.QPushButton(self.setpointSettingsGroupBox)
         self.selectFileButton.setEnabled(False)
         self.selectFileButton.setGeometry(QtCore.QRect(280, 80, 75, 23))
         self.selectFileButton.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.selectFileButton.setObjectName("selectFileButton")
+        self.selectFileButton.clicked.connect(partial(select_file, self.selected_file, self.selected_file_callback))
         
         self.sheetNameLabel = QtGui.QLabel(self.setpointSettingsGroupBox)
         self.sheetNameLabel.setGeometry(QtCore.QRect(40, 120, 71, 16))
@@ -209,6 +209,7 @@ class Ui_Form(object):
         self.startExperimentButton.setCursor(QtCore.Qt.ArrowCursor)
         self.startExperimentButton.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";")
         self.startExperimentButton.setObjectName("startExperimentButton")
+        self.startExperimentButton.clicked.connect(partial(show_message, self.selected_folder)) # Click event
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -262,6 +263,23 @@ class Ui_Form(object):
         '''
         self.startExperimentButton.setToolTip(QtGui.QApplication.translate("Form", "<html><head/><body><p><span style=\" font-size:8pt; font-weight:400;\">Click me</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.startExperimentButton.setText(QtGui.QApplication.translate("Form", "Start Experiment", None, QtGui.QApplication.UnicodeUTF8))
+    '''
+    Event region
+    '''    
+    def selected_folder_callback(self):
+        if self.selected_folder is not None:
+            self.stateFolderLineEdit.setText(self.selected_folder.value)
+    
+    def selected_file_callback(self):
+        if self.selected_folder is not None:
+            self.filePathLineEdit.setText(self.selected_file.value)
+
+    def enableMatrixSetpoingChanged(self):
+        enabled = self.enableMatrixSetpoingRadio.isChecked()
+        show_value(enabled)
+        self.filePathLineEdit.setEnabled(enabled)
+        self.selectFileButton.setEnabled(enabled)
+        self.sheetNameLineEdit.setEnabled(enabled)
 
 if __name__ == "__main__":
     import sys
