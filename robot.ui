@@ -31,14 +31,8 @@
      <height>491</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Corbel</family>
-     <pointsize>14</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-     <strikeout>false</strikeout>
-    </font>
+   <property name="styleSheet">
+    <string notr="true">font: 75 14pt &quot;Corbel&quot;;</string>
    </property>
    <property name="title">
     <string>Experiment Settings</string>
@@ -55,14 +49,8 @@
       <height>131</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>9</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-      <underline>false</underline>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">font: 75 9pt &quot;微软雅黑&quot;;</string>
     </property>
     <property name="title">
      <string>State Path Settings</string>
@@ -82,13 +70,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>false</underline>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>State Path:</string>
@@ -103,12 +86,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton">
@@ -120,12 +99,8 @@
        <height>23</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Select Folder</string>
@@ -140,12 +115,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_8">
@@ -157,13 +128,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>false</underline>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Check Interval:</string>
@@ -179,13 +145,8 @@
       <height>81</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>9</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">font: 75 9pt &quot;微软雅黑&quot;;</string>
     </property>
     <property name="title">
      <string>Position Matrix Type Settings</string>
@@ -205,12 +166,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Matrix Type:</string>
@@ -225,12 +182,8 @@
        <height>22</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <item>
       <property name="text">
@@ -278,13 +231,8 @@
       <height>151</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>9</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">font: 75 9pt &quot;微软雅黑&quot;;</string>
     </property>
     <property name="title">
      <string>Setpoint Matrix Settings</string>
@@ -304,12 +252,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Matrix File Path:</string>
@@ -327,12 +271,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_3">
@@ -347,12 +287,8 @@
        <height>23</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Select File</string>
@@ -370,12 +306,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Enable Setpoint Matrix</string>
@@ -390,12 +322,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Sheet Name:</string>
@@ -413,12 +341,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
    </widget>
@@ -431,13 +355,8 @@
       <height>131</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>9</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">font: 75 9pt &quot;微软雅黑&quot;;</string>
     </property>
     <property name="title">
      <string>Settling Time Settings</string>
@@ -451,13 +370,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>false</underline>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Approach Settling Time:</string>
@@ -472,12 +386,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_5">
@@ -489,12 +399,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_6">
@@ -506,13 +412,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>false</underline>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Move Settling Time:</string>
@@ -528,13 +429,8 @@
       <height>171</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>9</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">font: 75 9pt &quot;微软雅黑&quot;;</string>
     </property>
     <property name="title">
      <string>Trigger Signal Settings</string>
@@ -548,13 +444,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>false</underline>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>High Voltage:</string>
@@ -569,12 +460,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_10">
@@ -586,12 +473,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_11">
@@ -603,13 +486,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>false</underline>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Low Voltage:</string>
@@ -624,12 +502,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_14">
@@ -641,13 +515,8 @@
        <height>16</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>false</underline>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
       <string>Holding Time:</string>
@@ -663,16 +532,11 @@
       <height>71</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>9</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
     <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Please be patient&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 9pt &quot;微软雅黑&quot;;</string>
     </property>
     <property name="title">
      <string>Progress</string>
@@ -686,13 +550,6 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
     </widget>
     <widget class="QLabel" name="label_17">
      <property name="geometry">
@@ -702,14 +559,6 @@
        <width>111</width>
        <height>16</height>
       </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <weight>50</weight>
-       <bold>false</bold>
-       <underline>false</underline>
-      </font>
      </property>
      <property name="text">
       <string>Holding Time</string>
@@ -723,6 +572,12 @@
        <width>341</width>
        <height>23</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please be patient&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="value">
       <number>24</number>
@@ -751,15 +606,6 @@
      <width>301</width>
      <height>41</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>MS Shell Dlg 2</family>
-     <pointsize>16</pointsize>
-     <weight>9</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-    </font>
    </property>
    <property name="cursor">
     <cursorShape>ArrowCursor</cursorShape>
