@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>963</width>
-    <height>607</height>
+    <height>598</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -76,9 +76,9 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>40</x>
        <y>50</y>
-       <width>81</width>
+       <width>61</width>
        <height>16</height>
       </rect>
      </property>
@@ -91,7 +91,7 @@
       </font>
      </property>
      <property name="text">
-      <string>State File Path:</string>
+      <string>State Path:</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit">
@@ -128,7 +128,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Choose</string>
+      <string>Select Folder</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_7">
@@ -355,7 +355,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Choose</string>
+      <string>Select File</string>
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButton">
@@ -500,7 +500,7 @@
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>60</x>
        <y>90</y>
        <width>111</width>
        <height>16</height>
@@ -542,9 +542,9 @@
     <widget class="QLabel" name="label_10">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>90</x>
        <y>50</y>
-       <width>131</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
@@ -597,9 +597,9 @@
     <widget class="QLabel" name="label_11">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>90</x>
        <y>90</y>
-       <width>111</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
@@ -635,9 +635,9 @@
     <widget class="QLabel" name="label_14">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>90</x>
        <y>130</y>
-       <width>111</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>
@@ -650,7 +650,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Holding Time</string>
+      <string>Holding Time:</string>
      </property>
     </widget>
    </widget>
@@ -670,6 +670,9 @@
       <weight>75</weight>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;Please be patient&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="title">
      <string>Progress</string>
@@ -751,18 +754,22 @@
    </property>
    <property name="font">
     <font>
-     <family>微软雅黑</family>
+     <family>MS Shell Dlg 2</family>
      <pointsize>16</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-     <strikeout>false</strikeout>
+     <weight>9</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <property name="cursor">
     <cursorShape>ArrowCursor</cursorShape>
    </property>
    <property name="toolTip">
-    <string>Click me</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:8pt; font-weight:400;&quot;&gt;Click me&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 8pt &quot;Comic Sans MS&quot;;
+font: 75 16pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
     <string>Start Experiment</string>
