@@ -6,7 +6,7 @@ Created on Jun 28, 2018
 import sys
 from PySide import QtCore, QtGui
 from functools import partial
-from gui_unit.common import select_directory, select_file, show_message, PathWrapper
+from gui_unit.common import select_directory, select_file, show_message_wrapper, PathWrapper
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -27,7 +27,7 @@ class Ui_Form(object):
         self.show_button = QtGui.QPushButton(Form)
         self.show_button.setGeometry(QtCore.QRect(200, 220, 100, 40))
         self.show_button.setObjectName("Show Button")
-        self.show_button.clicked.connect(partial(show_message, self.path))
+        self.show_button.clicked.connect(partial(show_message_wrapper, self.path))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

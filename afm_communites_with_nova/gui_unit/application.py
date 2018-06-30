@@ -2,7 +2,7 @@
 
 from PySide import QtCore, QtGui
 from functools import partial
-from gui_unit.common import PathWrapper, select_directory, select_file, show_message, show_value
+from gui_unit.common import PathWrapper, select_directory, select_file, show_message_wrapper, show_message
 from workflow_unit.workflow import Workflow
 from workflow_unit.controller import Matrix_Type
 
@@ -56,7 +56,7 @@ class Ui_Form(object):
         self.selectFolderButton.clicked.connect(partial(select_directory, self.selected_folder, self.selected_folder_callback)) # Click event
         
         self.checkIntervalLabel = QtGui.QLabel(self.stateGroupBox)
-        self.checkIntervalLabel.setGeometry(QtCore.QRect(20, 90, 81, 16))
+        self.checkIntervalLabel.setGeometry(QtCore.QRect(6, 90, 90, 16))
         self.checkIntervalLabel.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.checkIntervalLabel.setObjectName("checkIntervalLabel")
         
@@ -64,6 +64,7 @@ class Ui_Form(object):
         self.checkIntervalLineEdit.setGeometry(QtCore.QRect(110, 90, 151, 20))
         self.checkIntervalLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.checkIntervalLineEdit.setObjectName("checkIntervalLineEdit")
+        self.checkIntervalLineEdit.textChanged.connect(self.checkIntervalLineEditTextChanged)
         '''Position Matrix Type Settings region
         '''
         self.positionSettingsGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
@@ -215,7 +216,7 @@ class Ui_Form(object):
         self.startExperimentButton.setCursor(QtCore.Qt.ArrowCursor)
         self.startExperimentButton.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";")
         self.startExperimentButton.setObjectName("startExperimentButton")
-        self.startExperimentButton.clicked.connect(partial(show_message, self.selected_folder)) # Click event
+        self.startExperimentButton.clicked.connect(partial(show_message_wrapper, self.selected_folder)) # Click event
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -230,7 +231,7 @@ class Ui_Form(object):
         self.stateGroupBox.setTitle(QtGui.QApplication.translate("Form", "State Path Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.stateFolderLabel.setText(QtGui.QApplication.translate("Form", "State Path:", None, QtGui.QApplication.UnicodeUTF8))
         self.selectFolderButton.setText(QtGui.QApplication.translate("Form", "Select Folder", None, QtGui.QApplication.UnicodeUTF8))
-        self.checkIntervalLabel.setText(QtGui.QApplication.translate("Form", "Check Interval:", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkIntervalLabel.setText(QtGui.QApplication.translate("Form", "Check Interval(s):", None, QtGui.QApplication.UnicodeUTF8))
         '''Position Matrix Type Settings region
         '''
         self.positionSettingsGroupBox.setTitle(QtGui.QApplication.translate("Form", "Position Matrix Type Settings", None, QtGui.QApplication.UnicodeUTF8))
@@ -282,7 +283,7 @@ class Ui_Form(object):
 
     def enableMatrixSetpoingChanged(self):
         enabled = self.enableMatrixSetpoingRadio.isChecked()
-        show_value(enabled)
+        show_message(enabled)
         self.filePathLineEdit.setEnabled(enabled)
         self.selectFileButton.setEnabled(enabled)
         self.sheetNameLineEdit.setEnabled(enabled)
@@ -303,7 +304,20 @@ class Ui_Form(object):
         elif index == 6:
             self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_512_512)
             
-        show_value(index)
+        show_message(index)
+    
+    def checkIntervalLineEditTextChanged(self):
+        try:
+            interval = float(self.checkIntervalLineEdit.text())
+            if interval < 0:
+                show_message("Invalid input, and must be no less than 0", "Error:")
+            else:
+                self.workflow.set_state_check_interval(interval)
+#                 show_message(interval)
+        except Exception:
+            show_message("Invalid input, and must be a float", "Error:")
+    
+    
 
 if __name__ == "__main__":
     import sys

@@ -16,7 +16,7 @@ def select_file(selected_file, callback = None):
     if callback is not None:
         callback()
 
-def show_message(message_wrapper):
+def show_message_wrapper(message_wrapper):
     msgBox = QtGui.QMessageBox()
     msgBox.setWindowTitle(" ")
     message = message_wrapper.value
@@ -28,10 +28,10 @@ def show_message(message_wrapper):
         msgBox.setText("Exception: " + e.message)
     msgBox.exec_()
 
-def show_value(value):
+def show_message(value, mesage_type='Value: '):
     msgBox = QtGui.QMessageBox()
     msgBox.setWindowTitle(" ")
-    msgBox.setText("Value: " + str(value))
+    msgBox.setText(mesage_type + str(value))
     msgBox.exec_()
 
 class PathWrapper:
