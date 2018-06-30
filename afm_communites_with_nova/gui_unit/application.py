@@ -153,6 +153,7 @@ class Ui_Form(object):
         self.approachTimeLineEdit.setGeometry(QtCore.QRect(180, 50, 161, 20))
         self.approachTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.approachTimeLineEdit.setObjectName("approachTimeLineEdit")
+        self.approachTimeLineEdit.textChanged.connect(self.approachTimeLineEditTextChanged)
 
         self.moveSettlingTime = QtGui.QLabel(self.timeGroupBox)
         self.moveSettlingTime.setGeometry(QtCore.QRect(60, 90, 111, 16))
@@ -163,6 +164,7 @@ class Ui_Form(object):
         self.moveTimeLineEdit.setGeometry(QtCore.QRect(180, 90, 161, 20))
         self.moveTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.moveTimeLineEdit.setObjectName("moveTimeLineEdit")
+        self.moveTimeLineEdit.textChanged.connect(self.moveTimeLineEditTextChanged)
         '''Trigger Signal Settings region
         '''
         self.triggerSettingsGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
@@ -171,7 +173,7 @@ class Ui_Form(object):
         self.triggerSettingsGroupBox.setObjectName("triggerSettingsGroupBox")
         
         self.highVolLabel = QtGui.QLabel(self.triggerSettingsGroupBox)
-        self.highVolLabel.setGeometry(QtCore.QRect(90, 50, 71, 16))
+        self.highVolLabel.setGeometry(QtCore.QRect(90, 50, 80, 16))
         self.highVolLabel.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.highVolLabel.setObjectName("highVolLabel")
         
@@ -179,9 +181,10 @@ class Ui_Form(object):
         self.highVolLineEdit.setGeometry(QtCore.QRect(180, 50, 161, 20))
         self.highVolLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.highVolLineEdit.setObjectName("highVolLineEdit")
+        self.highVolLineEdit.textChanged.connect(self.highVolLineEditTextChanged)
 
         self.lowVolLabel = QtGui.QLabel(self.triggerSettingsGroupBox)
-        self.lowVolLabel.setGeometry(QtCore.QRect(90, 90, 71, 16))
+        self.lowVolLabel.setGeometry(QtCore.QRect(90, 90, 80, 16))
         self.lowVolLabel.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.lowVolLabel.setObjectName("lowVolLabel")
         
@@ -189,9 +192,10 @@ class Ui_Form(object):
         self.lowVolLineEdit.setGeometry(QtCore.QRect(180, 90, 161, 20))
         self.lowVolLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.lowVolLineEdit.setObjectName("lowVolLineEdit")
+        self.lowVolLineEdit.textChanged.connect(self.lowVolLineEditTextChanged)
 
         self.holdingTimeLabel = QtGui.QLabel(self.triggerSettingsGroupBox)
-        self.holdingTimeLabel.setGeometry(QtCore.QRect(90, 130, 71, 16))
+        self.holdingTimeLabel.setGeometry(QtCore.QRect(84, 130, 80, 16))
         self.holdingTimeLabel.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.holdingTimeLabel.setObjectName("holdingTimeLabel")
         
@@ -199,6 +203,7 @@ class Ui_Form(object):
         self.holdingTimeLineEdit.setGeometry(QtCore.QRect(180, 130, 161, 20))
         self.holdingTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.holdingTimeLineEdit.setObjectName("holdingTimeLineEdit")
+        self.holdingTimeLineEdit.textChanged.connect(self.holdingTimeLineEditTextChanged)
         '''Progress region
         '''
         self.progressGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
@@ -254,14 +259,14 @@ class Ui_Form(object):
         '''Settling time region
         '''
         self.timeGroupBox.setTitle(QtGui.QApplication.translate("Form", "Settling Time Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.approachSettlingTime.setText(QtGui.QApplication.translate("Form", "Approach Settling Time:", None, QtGui.QApplication.UnicodeUTF8))
-        self.moveSettlingTime.setText(QtGui.QApplication.translate("Form", "Move Settling Time:", None, QtGui.QApplication.UnicodeUTF8))
+        self.approachSettlingTime.setText(QtGui.QApplication.translate("Form", "Approach Settling Time(s):", None, QtGui.QApplication.UnicodeUTF8))
+        self.moveSettlingTime.setText(QtGui.QApplication.translate("Form", "Move Settling Time(s):", None, QtGui.QApplication.UnicodeUTF8))
         '''Trigger Signal Settings region
         '''
         self.triggerSettingsGroupBox.setTitle(QtGui.QApplication.translate("Form", "Trigger Signal Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.highVolLabel.setText(QtGui.QApplication.translate("Form", "High Voltage:", None, QtGui.QApplication.UnicodeUTF8))
-        self.lowVolLabel.setText(QtGui.QApplication.translate("Form", "Low Voltage:", None, QtGui.QApplication.UnicodeUTF8))
-        self.holdingTimeLabel.setText(QtGui.QApplication.translate("Form", "Holding Time:", None, QtGui.QApplication.UnicodeUTF8))
+        self.highVolLabel.setText(QtGui.QApplication.translate("Form", "High Voltage(V):", None, QtGui.QApplication.UnicodeUTF8))
+        self.lowVolLabel.setText(QtGui.QApplication.translate("Form", "Low Voltage(V):", None, QtGui.QApplication.UnicodeUTF8))
+        self.holdingTimeLabel.setText(QtGui.QApplication.translate("Form", "Holding Time(s):", None, QtGui.QApplication.UnicodeUTF8))
         '''Progress region
         '''
         self.progressGroupBox.setToolTip(QtGui.QApplication.translate("Form", "<html><head/><body><p><br/></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
@@ -288,6 +293,7 @@ class Ui_Form(object):
         self.filePathLineEdit.setEnabled(enabled)
         self.selectFileButton.setEnabled(enabled)
         self.sheetNameLineEdit.setEnabled(enabled)
+
     def matrixTypeChanged(self):
         index = self.matrixTypeCombo.currentIndex() # Index from 0
         if index == 0:
@@ -308,25 +314,112 @@ class Ui_Form(object):
         show_message(index)
     
     def checkIntervalLineEditTextChanged(self):
+        interval = self.checkIntervalLineEdit.text()
         try:
-            interval = float(self.checkIntervalLineEdit.text())
-            if interval < 0:
-                show_message("Invalid input, and must be no less than 0", "Error:")
-            else:
-                self.workflow.set_state_check_interval(interval)
-#                 show_message(interval)
+            if interval != "":
+                interval = float(interval)
+                if interval < 0:
+                    show_message("Invalid input, and must be no less than 0", "Error:")
+                else:
+                    self.workflow.set_state_check_interval(interval)
+                show_message(interval)
         except Exception:
             show_message("Invalid input, and must be a float", "Error:")
+            self.checkIntervalLineEdit.setText("")
     
     def sheetNameLineEditTextChanged(self):
+        sheet_name = self.sheetNameLineEdit.text()
         try:
-            sheet_name = str(self.sheetNameLineEdit.text())
-            self.workflow.set_setpoint_matrix_sheet_name(sheet_name)
-            show_message(sheet_name)
+            if sheet_name != "":
+                self.workflow.set_setpoint_matrix_sheet_name(sheet_name)
+                show_message(sheet_name)
         except Exception as e:
             show_message(e.message, "Error:")
+            self.sheetNameLineEdit.setText("")
+
+    def approachTimeLineEditTextChanged(self):
+        time_value = self.approachTimeLineEdit.text()
+        try:
+            if time_value != "":
+                time_value = float(time_value)
+                if time_value < 0:
+                    show_message("Invalid input, and must be no less than 0", "Error:")
+                else:
+                    self.workflow.set_settling_time_for_approach(time_value)
+                    show_message(time_value)
+        except Exception:
+            show_message("Invalid input, and must be a float", "Error:")
+            self.approachTimeLineEdit.setText("")
     
+    def moveTimeLineEditTextChanged(self):
+        time_value = self.moveTimeLineEdit.text()
+        try:
+            if time_value != "":
+                time_value = float(time_value)
+                if time_value < 0:
+                    show_message("Invalid input, and must be no less than 0", "Error:")
+                else:
+                    self.workflow.set_settling_time_for_move(time_value)
+                    show_message(time_value)
+        except Exception:
+            show_message("Invalid input, and must be a float", "Error:")
+            self.moveTimeLineEdit.setText("")
     
+    def highVolLineEditTextChanged(self):
+        voltage_value = self.highVolLineEdit.text()
+        if voltage_value == '-':
+            return
+        
+        try:
+            if voltage_value != "":
+                voltage_value = float(voltage_value)
+                if voltage_value < -10:
+                    show_message("Clip value", "")
+                    self.highVolLineEdit.setText("-10")
+                elif voltage_value > 10:
+                    show_message("Clip value", "")
+                    self.highVolLineEdit.setText("10")
+                else:
+                    self.workflow.set_high_voltage(voltage_value)
+                    show_message(voltage_value)
+        except Exception:
+            show_message("Invalid input, and must be a float", "Error:")
+            self.highVolLineEdit.setText("")
+            
+    def lowVolLineEditTextChanged(self):
+        voltage_value = self.lowVolLineEdit.text()
+        if voltage_value == '-':
+            return
+        
+        try:
+            if voltage_value != "":
+                voltage_value = float(voltage_value)
+                if voltage_value < -10:
+                    show_message("Clip value", "")
+                    self.lowVolLineEdit.setText("-10")
+                elif voltage_value > 10:
+                    show_message("Clip value", "")
+                    self.lowVolLineEdit.setText("10")
+                else:
+                    self.workflow.set_low_voltage(voltage_value)
+                    show_message(voltage_value)
+        except Exception:
+            show_message("Invalid input, and must be a float", "Error:")
+            self.lowVolLineEdit.setText("")
+            
+    def holdingTimeLineEditTextChanged(self):
+        time_value = self.holdingTimeLineEdit.text()
+        try:
+            if time_value != "":
+                time_value = float(time_value)
+                if time_value < 0:
+                    show_message("Invalid input, and must be no less than 0", "Error:")
+                else:
+                    self.workflow.set_holding_time(time_value)
+                    show_message(time_value)
+        except Exception:
+            show_message("Invalid input, and must be a float", "Error:")
+            self.holdingTimeLineEdit.setText("")
 
 if __name__ == "__main__":
     import sys
