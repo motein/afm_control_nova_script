@@ -7,10 +7,14 @@ Created on Jun 23, 2018
 import time
 import os
 from workflow_unit.controller import AFMController
+from workflow_unit.excel import read_excel_file, validate_matrix
+from gui_unit.common import show_message
+from tools.log import LogSystem
 TIMES_LIMIT = 1
 
 class Workflow:
     def __init__(self):
+        self.logger = LogSystem.get_log("Workflow")
         self.afm_controller =  AFMController()
         self.state_path = None
         # Position Matrix
@@ -36,6 +40,15 @@ class Workflow:
         self.afm_controller.prepareAfmExperiment()
         self.afm_controller.calcPositionMatrix(self.position_matrix_type)
         num = self.afm_controller.getPointsNumber()
+        
+        if (self.enable_setpoint_matrix):
+            data_matrix = read_excel_file(self.setpoint_matrix_file_path, self.setpoint_matrix_sheet_name)
+            result, row_column = validate_matrix(data_matrix, num)
+            if result == False:
+                show_message("Setpoint Matrix is not correct. Please check it.", "Error:")
+                self.logger.error("Row_Column->" + row_column)
+                return
+
         for i in range(num):
             for j in range(num):
                 print(i, j)

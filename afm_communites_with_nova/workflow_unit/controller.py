@@ -7,9 +7,9 @@ Created on Jun 23, 2018
 import sys
 import picoscript
 import time
-import logging
 import numpy as np
 from enum import Enum
+from tools.log import LogSystem
 
 class Matrix_Type(Enum):
     MATRIX_8_8 = 0
@@ -22,7 +22,7 @@ class Matrix_Type(Enum):
     
 class AFMController:
     def __init__(self):
-        logging.basicConfig(filename='../data/afm_nova.log',level=logging.DEBUG) # Log system
+        self.logger = LogSystem.get_log("AFMController")
         self.matrix_type = Matrix_Type.MATRIX_8_8
         self.points_number = 8
         self.setpoint = 1
@@ -66,7 +66,7 @@ class AFMController:
             self.points_number = 512
         else:
             print("Not supported yet")
-            logging.warning("Not supported yet")
+            self.logger.warning("Not supported yet")
             sys.exit()
             
         self.__calcSpecifedPositionMatrix()

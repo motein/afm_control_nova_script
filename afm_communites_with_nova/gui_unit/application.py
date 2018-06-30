@@ -2,7 +2,7 @@
 
 from PySide import QtCore, QtGui
 from functools import partial
-from gui_unit.common import PathWrapper, select_directory, select_file, show_message_wrapper, show_message
+from gui_unit.common import PathWrapper, select_directory, select_file, show_message
 from workflow_unit.workflow import Workflow
 from workflow_unit.controller import Matrix_Type
 
