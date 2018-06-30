@@ -12,13 +12,19 @@ import numpy as np
 from enum import Enum
 
 class Matrix_Type(Enum):
-    MATRIX_8_8 = 1
-    MATRIX_16_16 = 2
+    MATRIX_8_8 = 0
+    MATRIX_16_16 = 1
+    MATRIX_32_32 = 2
+    MATRIX_64_64 = 3
+    MATRIX_128_128 = 4
+    MATRIX_256_256 = 5
+    MATRIX_512_512 = 6
     
 class AFMController:
     def __init__(self):
         logging.basicConfig(filename='../data/afm_nova.log',level=logging.DEBUG) # Log system
         self.matrix_type = Matrix_Type.MATRIX_8_8
+        self.points_number = 8
         self.setpoint = 1
         self.matrix_X = np.empty(shape=[0, 0]) # fast
         self.matrix_Y = np.empty(shape=[0, 0]) # slow
@@ -26,8 +32,6 @@ class AFMController:
         self.width = None
         self.center_x = None
         self.center_y = None
-        self.points_number = None
-        
         
     def prepareAfmExperiment(self):
         self.setpoint = picoscript.GetServoSetpoint()
@@ -48,14 +52,24 @@ class AFMController:
     def calcPositionMatrix(self, matrix_type):
         if matrix_type == Matrix_Type.MATRIX_8_8:
             self.points_number = 8
-            self.__calcSpecifedPositionMatrix()
         elif matrix_type == Matrix_Type.MATRIX_16_16:
             self.points_number = 16
-            self.__calcSpecifedPositionMatrix()
+        elif matrix_type == Matrix_Type.MATRIX_32_32:
+            self.points_number = 32
+        elif matrix_type == Matrix_Type.MATRIX_64_64:
+            self.points_number = 64
+        elif matrix_type == Matrix_Type.MATRIX_128_128:
+            self.points_number = 128
+        elif matrix_type == Matrix_Type.MATRIX_256_256:
+            self.points_number = 256
+        elif matrix_type == Matrix_Type.MATRIX_512_512:
+            self.points_number = 512
         else:
             print("Not supported yet")
             logging.warning("Not supported yet")
             sys.exit()
+            
+        self.__calcSpecifedPositionMatrix()
     
     def __calcSpecifedPositionMatrix(self):
         self.matrix_X = np.zeros(shape=[self.points_number, self.points_number])

@@ -3,6 +3,8 @@
 from PySide import QtCore, QtGui
 from functools import partial
 from gui_unit.common import PathWrapper, select_directory, select_file, show_message, show_value
+from workflow_unit.workflow import Workflow
+from workflow_unit.controller import Matrix_Type
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -17,7 +19,10 @@ class Ui_Form(object):
         brandingIcon = QtGui.QIcon()
         brandingIcon.addPixmap(QtGui.QPixmap("../resources/branding.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(brandingIcon)
-        '''Experiment Settings Region
+        '''Workflow region
+        '''
+        self.workflow = Workflow()
+        '''Experiment Settings region
         '''
         self.experimentSettingsGroupBox = QtGui.QGroupBox(Form)
         self.experimentSettingsGroupBox.setGeometry(QtCore.QRect(30, 0, 901, 491))
@@ -84,6 +89,7 @@ class Ui_Form(object):
         self.matrixTypeCombo.addItem("")
         self.matrixTypeCombo.addItem("")
         self.matrixTypeCombo.addItem("")
+        self.matrixTypeCombo.currentIndexChanged.connect(self.matrixTypeChanged)
         '''Set-point Matrix Settings region
         '''
         self.setpointSettingsGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
@@ -280,6 +286,24 @@ class Ui_Form(object):
         self.filePathLineEdit.setEnabled(enabled)
         self.selectFileButton.setEnabled(enabled)
         self.sheetNameLineEdit.setEnabled(enabled)
+    def matrixTypeChanged(self):
+        index = self.matrixTypeCombo.currentIndex() # Index from 0
+        if index == 0:
+            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_8_8)
+        elif index == 1:
+            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_16_16)
+        elif index == 2:
+            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_32_32)
+        elif index == 3:
+            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_64_64)
+        elif index == 4:
+            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_128_128)
+        elif index == 5:
+            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_256_256)
+        elif index == 6:
+            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_512_512)
+            
+        show_value(index)
 
 if __name__ == "__main__":
     import sys
