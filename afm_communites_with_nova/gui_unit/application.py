@@ -136,6 +136,7 @@ class Ui_Form(object):
         self.sheetNameLineEdit.setGeometry(QtCore.QRect(110, 120, 151, 20))
         self.sheetNameLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.sheetNameLineEdit.setObjectName("sheetNameLineEdit")
+        self.sheetNameLineEdit.textChanged.connect(self.sheetNameLineEditTextChanged)
         '''Settling time region
         '''
         self.timeGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
@@ -316,6 +317,14 @@ class Ui_Form(object):
 #                 show_message(interval)
         except Exception:
             show_message("Invalid input, and must be a float", "Error:")
+    
+    def sheetNameLineEditTextChanged(self):
+        try:
+            sheet_name = str(self.sheetNameLineEdit.text())
+            self.workflow.set_setpoint_matrix_sheet_name(sheet_name)
+            show_message(sheet_name)
+        except Exception as e:
+            show_message(e.message, "Error:")
     
     
 

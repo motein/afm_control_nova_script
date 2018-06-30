@@ -18,6 +18,7 @@ class Workflow:
         # Set-point Matrix
         self.enable_setpoint_matrix = False
         self.setpoint_matrix_file_path = None
+        self.setpoint_matrix_sheet_name = "Sheet1"
         self.setpoint_matrix = None
         # Settling time
         self.settling_time_for_approach = 1
@@ -68,6 +69,9 @@ class Workflow:
     
     def set_setpoint_matrix_file_path(self, path):
         self.setpoint_matrix_file_path = path
+    
+    def set_setpoint_matrix_sheet_name(self, sheet_name):
+        self.setpoint_matrix_sheet_name = sheet_name
         
     def set_settling_time_for_approach(self, time_value):
         self.settling_time_for_approach = time_value
