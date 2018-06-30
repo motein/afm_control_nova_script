@@ -22,6 +22,7 @@ class Ui_Form(object):
         '''Workflow region
         '''
         self.workflow = Workflow()
+        self.inProgress = False
         '''Experiment Settings region
         '''
         self.experimentSettingsGroupBox = QtGui.QGroupBox(Form)
@@ -222,7 +223,7 @@ class Ui_Form(object):
         self.startExperimentButton.setCursor(QtCore.Qt.ArrowCursor)
         self.startExperimentButton.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";")
         self.startExperimentButton.setObjectName("startExperimentButton")
-        self.startExperimentButton.clicked.connect(partial(show_message_wrapper, self.selected_folder)) # Click event
+        self.startExperimentButton.clicked.connect(self.startExperimentButtonClicked) # Click event
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -420,6 +421,20 @@ class Ui_Form(object):
         except Exception:
             show_message("Invalid input, and must be a float", "Error:")
             self.holdingTimeLineEdit.setText("")
+    
+    def startExperimentButtonClicked(self):
+        if self.inProgress == True:
+            return
+        
+        self.inProgress = True
+        self.progressBar.setProperty("value", 0)
+        try:
+            show_message("Experiment started", "")
+#             self.workflow.start_to_work()
+        finally:
+            self.progressBar.setProperty("value", 100)
+            self.inProgress = False
+        
 
 if __name__ == "__main__":
     import sys
