@@ -15,8 +15,10 @@ TIMES_LIMIT = 1
 class Workflow:
     def __init__(self):
         self.logger = LogSystem.get_log("Workflow")
+        self.inProgress = False
         self.afm_controller =  AFMController()
         self.state_path = None
+        self.state_file_name = "/state_fin"
         # Position Matrix
         self.position_matrix_type = None
         # Set-point Matrix
@@ -41,9 +43,9 @@ class Workflow:
         self.afm_controller.calcPositionMatrix(self.position_matrix_type)
         num = self.afm_controller.getPointsNumber()
         
-        if (self.enable_setpoint_matrix):
-            data_matrix = read_excel_file(self.setpoint_matrix_file_path, self.setpoint_matrix_sheet_name)
-            result, row_column = validate_matrix(data_matrix, num)
+        if self.enable_setpoint_matrix == True:
+            self.setpoint_matrix = read_excel_file(self.setpoint_matrix_file_path, self.setpoint_matrix_sheet_name)
+            result, row_column = validate_matrix(self.setpoint_matrix, num)
             if result == False:
                 show_message("Setpoint Matrix is not correct. Please check it.", "Error:")
                 self.logger.error("Row_Column->" + row_column)
@@ -51,18 +53,18 @@ class Workflow:
 
         for i in range(num):
             for j in range(num):
-                print(i, j)
+                self.logger("i=" + i + ", j=" + j)
                 fast, slow = self.afm_controller.getPositionbyIndex(i, j)
                 self.afm_controller.moveTip(fast, slow)
                 time.sleep(self.settling_time_for_move) # settle
-                if (self.enable_setpoint_matrix):
+                if self.enable_setpoint_matrix == True:
                     self.afm_controller.doApproach(self.setpoint_matrix[i, j]) # self defined set-point
                 else:
                     self.afm_controller.doApproach() # default set-point
                 time.sleep(self.settling_time_for_approach)
-                self.afm_controller.sendTriggerSingal()
+                self.afm_controller.sendTriggerSingal(self.high_vol, self.low_vol, self.holding_time)
                 acc_time = 0
-                while acc_time > TIMES_LIMIT and os.path.isfile(self.state_path) is not True:
+                while acc_time > TIMES_LIMIT and os.path.isfile(self.state_path + self.state_file_name) is not True:
                     time.sleep(self.state_check_interval)
                     acc_time += 1
                 
@@ -103,4 +105,10 @@ class Workflow:
     
     def set_holding_time(self, holding_time):
         self.holding_time = holding_time
+    
+    def set_inProgress(self, value):
+        self.inProgress = value
+    
+    def get_inProgress(self):
+        return self.inProgress
     

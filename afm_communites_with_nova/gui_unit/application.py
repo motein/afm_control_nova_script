@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import time
 from PySide import QtCore, QtGui
 from functools import partial
 from gui_unit.common import PathWrapper, select_directory, select_file, show_message
@@ -22,7 +22,6 @@ class Ui_Form(object):
         '''Workflow region
         '''
         self.workflow = Workflow()
-        self.inProgress = False
         '''Experiment Settings region
         '''
         self.experimentSettingsGroupBox = QtGui.QGroupBox(Form)
@@ -423,17 +422,21 @@ class Ui_Form(object):
             self.holdingTimeLineEdit.setText("")
     
     def startExperimentButtonClicked(self):
-        if self.inProgress == True:
+        if self.workflow.get_inProgress() == True:
             return
         
-        self.inProgress = True
+        self.workflow.set_inProgress(True)
         self.progressBar.setProperty("value", 0)
+        self.startExperimentButton.setText("Stop Experiment")
+        
         try:
             show_message("Experiment started", "")
+            time.sleep(3)
 #             self.workflow.start_to_work()
         finally:
             self.progressBar.setProperty("value", 100)
-            self.inProgress = False
+            self.workflow.set_inProgress(False)
+            self.startExperimentButton.setText("Start Experiment")
         
 
 if __name__ == "__main__":
