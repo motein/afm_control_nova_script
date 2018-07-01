@@ -53,6 +53,9 @@ class Workflow:
 
         for i in range(num):
             for j in range(num):
+                if self.inProgress == False: # Stop button pressed
+                    return
+                
                 self.logger("i=" + i + ", j=" + j)
                 fast, slow = self.afm_controller.getPositionbyIndex(i, j)
                 self.afm_controller.moveTip(fast, slow)
