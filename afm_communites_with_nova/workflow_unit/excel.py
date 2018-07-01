@@ -29,5 +29,3 @@ def validate_matrix(data_matrix, points_number):
         result = False
     
     return result, row_column
-    
-    

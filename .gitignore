@@ -1,5 +1,8 @@
 /.metadata/
 afm_communites_with_nova/gui_unit/*.pyc
+afm_communites_with_nova/gui_unit/build/*
+afm_communites_with_nova/gui_unit/dist/*
+afm_communites_with_nova/gui_unit/*.spec
 afm_communites_with_nova/workflow_unit/*.pyc
 afm_communites_with_nova/tools/*.pyc
 afm_communites_with_nova/data/*.log
