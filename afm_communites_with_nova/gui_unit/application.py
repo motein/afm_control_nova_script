@@ -17,7 +17,7 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
         Form.setSizePolicy(sizePolicy)
         brandingIcon = QtGui.QIcon()
-        brandingIcon.addPixmap(QtGui.QPixmap("../resources/branding.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        brandingIcon.addPixmap(QtGui.QPixmap("../resources/robot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(brandingIcon)
         '''Workflow region
         '''
@@ -214,7 +214,7 @@ class Ui_Form(object):
         self.progressBar = QtGui.QProgressBar(self.progressGroupBox)
         self.progressBar.setGeometry(QtCore.QRect(40, 30, 341, 23))
         self.progressBar.setStyleSheet("font: 8pt \"Times New Roman\";")
-        self.progressBar.setProperty("value", 24)
+        self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
         
         self.startExperimentButton = QtGui.QPushButton(Form)
