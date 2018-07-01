@@ -605,8 +605,8 @@
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>530</y>
+     <x>150</x>
+     <y>520</y>
      <width>301</width>
      <height>41</height>
     </rect>
@@ -623,6 +623,29 @@ font: 75 16pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
     <string>Start Experiment</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>520</y>
+     <width>301</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:8pt; font-weight:400;&quot;&gt;Click me&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 8pt &quot;Comic Sans MS&quot;;
+font: 75 16pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Stop Experiment</string>
    </property>
   </widget>
  </widget>

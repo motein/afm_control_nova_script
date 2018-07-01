@@ -216,13 +216,22 @@ class Ui_Form(object):
         self.progressBar.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
-        
+        '''Start/Stop experiment
+        '''
         self.startExperimentButton = QtGui.QPushButton(Form)
-        self.startExperimentButton.setGeometry(QtCore.QRect(330, 530, 301, 41))
+        self.startExperimentButton.setGeometry(QtCore.QRect(150, 530, 301, 41))
         self.startExperimentButton.setCursor(QtCore.Qt.ArrowCursor)
         self.startExperimentButton.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";")
         self.startExperimentButton.setObjectName("startExperimentButton")
         self.startExperimentButton.clicked.connect(self.startExperimentButtonClicked) # Click event
+        
+        self.stopExperimentButton = QtGui.QPushButton(Form)
+        self.stopExperimentButton.setGeometry(QtCore.QRect(530, 530, 301, 41))
+        self.stopExperimentButton.setCursor(QtCore.Qt.ArrowCursor)
+        self.stopExperimentButton.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";")
+        self.stopExperimentButton.setObjectName("stopExperimentButton")
+        self.stopExperimentButton.setEnabled(False)
+        self.stopExperimentButton.clicked.connect(self.stopExperimentButtonClicked) # Click event
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -272,10 +281,13 @@ class Ui_Form(object):
         self.progressGroupBox.setToolTip(QtGui.QApplication.translate("Form", "<html><head/><body><p><br/></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.progressGroupBox.setTitle(QtGui.QApplication.translate("Form", "Progress", None, QtGui.QApplication.UnicodeUTF8))
         self.progressBar.setToolTip(QtGui.QApplication.translate("Form", "<html><head/><body><p>Please be patient</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        '''Start experiment
+        '''Start/Stop experiment
         '''
         self.startExperimentButton.setToolTip(QtGui.QApplication.translate("Form", "<html><head/><body><p><span style=\" font-size:8pt; font-weight:400;\">Click me</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         self.startExperimentButton.setText(QtGui.QApplication.translate("Form", "Start Experiment", None, QtGui.QApplication.UnicodeUTF8))
+        
+        self.stopExperimentButton.setToolTip(QtGui.QApplication.translate("Form", "<html><head/><body><p><span style=\" font-size:8pt; font-weight:400;\">Click me</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.stopExperimentButton.setText(QtGui.QApplication.translate("Form", "Stop Experiment", None, QtGui.QApplication.UnicodeUTF8))
     '''
     Event region
     '''    
@@ -426,8 +438,9 @@ class Ui_Form(object):
             return
         
         self.workflow.set_inProgress(True)
+        self.startExperimentButton.setEnabled(False)
+        self.stopExperimentButton.setEnabled(True)
         self.progressBar.setProperty("value", 0)
-        self.startExperimentButton.setText("Stop Experiment")
         
         try:
             show_message("Experiment started", "")
@@ -436,7 +449,12 @@ class Ui_Form(object):
         finally:
             self.progressBar.setProperty("value", 100)
             self.workflow.set_inProgress(False)
-            self.startExperimentButton.setText("Start Experiment")
+            self.stopExperimentButton.setEnabled(False)
+            self.startExperimentButton.setEnabled(True)
+    
+    def stopExperimentButtonClicked(self):
+        if self.workflow.get_inProgress() == True:
+            self.workflow.set_inProgress(False)
         
 
 if __name__ == "__main__":
