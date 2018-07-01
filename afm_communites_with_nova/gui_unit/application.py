@@ -331,12 +331,12 @@ class Ui_Form(object):
             if interval != "":
                 interval = float(interval)
                 if interval < 0:
-                    show_message("Invalid input, and must be no less than 0", "Error:")
+                    show_message("Invalid input, and must be no less than 0", "Error")
                 else:
                     self.workflow.set_state_check_interval(interval)
                 show_message(interval)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error:")
+            show_message("Invalid input, and must be a float", "Error")
             self.checkIntervalLineEdit.setText("")
     
     def sheetNameLineEditTextChanged(self):
@@ -346,7 +346,7 @@ class Ui_Form(object):
                 self.workflow.set_setpoint_matrix_sheet_name(sheet_name)
                 show_message(sheet_name)
         except Exception as e:
-            show_message(e.message, "Error:")
+            show_message(e.message, "warning")
             self.sheetNameLineEdit.setText("")
 
     def approachTimeLineEditTextChanged(self):
@@ -355,12 +355,12 @@ class Ui_Form(object):
             if time_value != "":
                 time_value = float(time_value)
                 if time_value < 0:
-                    show_message("Invalid input, and must be no less than 0", "Error:")
+                    show_message("Invalid input, and must be no less than 0", "Error")
                 else:
                     self.workflow.set_settling_time_for_approach(time_value)
                     show_message(time_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error:")
+            show_message("Invalid input, and must be a float", "Error")
             self.approachTimeLineEdit.setText("")
     
     def moveTimeLineEditTextChanged(self):
@@ -369,12 +369,12 @@ class Ui_Form(object):
             if time_value != "":
                 time_value = float(time_value)
                 if time_value < 0:
-                    show_message("Invalid input, and must be no less than 0", "Error:")
+                    show_message("Invalid input, and must be no less than 0", "Error")
                 else:
                     self.workflow.set_settling_time_for_move(time_value)
                     show_message(time_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error:")
+            show_message("Invalid input, and must be a float", "Error")
             self.moveTimeLineEdit.setText("")
     
     def highVolLineEditTextChanged(self):
@@ -386,16 +386,16 @@ class Ui_Form(object):
             if voltage_value != "":
                 voltage_value = float(voltage_value)
                 if voltage_value < -10:
-                    show_message("Clip value", "")
+                    show_message("Clip value")
                     self.highVolLineEdit.setText("-10")
                 elif voltage_value > 10:
-                    show_message("Clip value", "")
+                    show_message("Clip value")
                     self.highVolLineEdit.setText("10")
                 else:
                     self.workflow.set_high_voltage(voltage_value)
                     show_message(voltage_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error:")
+            show_message("Invalid input, and must be a float", "Error")
             self.highVolLineEdit.setText("")
             
     def lowVolLineEditTextChanged(self):
@@ -407,16 +407,16 @@ class Ui_Form(object):
             if voltage_value != "":
                 voltage_value = float(voltage_value)
                 if voltage_value < -10:
-                    show_message("Clip value", "")
+                    show_message("Clip value")
                     self.lowVolLineEdit.setText("-10")
                 elif voltage_value > 10:
-                    show_message("Clip value", "")
+                    show_message("Clip value")
                     self.lowVolLineEdit.setText("10")
                 else:
                     self.workflow.set_low_voltage(voltage_value)
                     show_message(voltage_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error:")
+            show_message("Invalid input, and must be a float", "Error")
             self.lowVolLineEdit.setText("")
             
     def holdingTimeLineEditTextChanged(self):
@@ -425,12 +425,12 @@ class Ui_Form(object):
             if time_value != "":
                 time_value = float(time_value)
                 if time_value < 0:
-                    show_message("Invalid input, and must be no less than 0", "Error:")
+                    show_message("Invalid input, and must be no less than 0", "Error")
                 else:
                     self.workflow.set_holding_time(time_value)
                     show_message(time_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error:")
+            show_message("Invalid input, and must be a float", "Error")
             self.holdingTimeLineEdit.setText("")
     
     def startExperimentButtonClicked(self):
@@ -443,9 +443,9 @@ class Ui_Form(object):
         self.progressBar.setProperty("value", 0)
         
         try:
-            show_message("Experiment started", "")
+            show_message("Experiment started")
             time.sleep(3)
-#             self.workflow.start_to_work()
+            self.workflow.start_to_work()
         finally:
             self.progressBar.setProperty("value", 100)
             self.workflow.set_inProgress(False)

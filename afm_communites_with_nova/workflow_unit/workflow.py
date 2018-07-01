@@ -24,21 +24,25 @@ class Workflow:
         # Set-point Matrix
         self.enable_setpoint_matrix = False
         self.setpoint_matrix_file_path = None
-        self.setpoint_matrix_sheet_name = "Sheet1"
+        self.setpoint_matrix_sheet_name = None
         self.setpoint_matrix = None
         # Settling time
-        self.settling_time_for_approach = 1
-        self.settling_time_for_move = 1
+        self.settling_time_for_approach = None
+        self.settling_time_for_move = None
         # Interval for checking state file
-        self.state_check_interval = 2
+        self.state_check_interval = None
         # Signal to trigger
-        self.high_vol = 5
-        self.low_vol = 0
-        self.holding_time = 1 # time of holding high voltage
+        self.high_vol = None
+        self.low_vol = None
+        self.holding_time = None # time of holding high voltage
     '''
     Start to do the experiment
     '''    
     def start_to_work(self):
+        if self.check_experiment_conditions() == False:
+            show_message("Please prepare your experiment parameters.", "Error")
+            return
+            
         self.afm_controller.prepareAfmExperiment()
         self.afm_controller.calcPositionMatrix(self.position_matrix_type)
         num = self.afm_controller.getPointsNumber()
@@ -47,7 +51,7 @@ class Workflow:
             self.setpoint_matrix = read_excel_file(self.setpoint_matrix_file_path, self.setpoint_matrix_sheet_name)
             result, row_column = validate_matrix(self.setpoint_matrix, num)
             if result == False:
-                show_message("Setpoint Matrix is not correct. Please check it.", "Error:")
+                show_message("Setpoint Matrix is not correct. Please check it.", "Error")
                 self.logger.error("Row_Column->" + row_column)
                 return
 
@@ -72,6 +76,22 @@ class Workflow:
                     acc_time += 1
                 
                 self.afm_controller.doWithdraw()
+    
+    def check_experiment_conditions(self):
+        if self.state_path == None or self.state_check_interval == None:
+            return False
+        
+        if self.enable_setpoint_matrix == True:
+            if self.setpoint_matrix_file_path == None or self.setpoint_matrix_sheet_name == None:
+                return False
+                
+        if self.settling_time_for_approach == None or self.settling_time_for_move == None:
+            return False
+        
+        if self.high_vol == None or self.low_vol == None or self.holding_time == None:
+            return False
+            
+        return True
         
     '''
     Prepare experiments. Set functions

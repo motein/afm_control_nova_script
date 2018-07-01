@@ -28,10 +28,20 @@ def show_message_wrapper(message_wrapper):
         msgBox.setText("Exception: " + e.message)
     msgBox.exec_()
 
-def show_message(value, mesage_type='Value: '):
+def show_message(value, message_type='Info'):
     msgBox = QtGui.QMessageBox()
-    msgBox.setWindowTitle(" ")
-    msgBox.setText(mesage_type + str(value))
+    msgBox.setWindowTitle(message_type)
+    windowIcon = QtGui.QIcon()
+    windowIcon.addPixmap(QtGui.QPixmap("../resources/robot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+    msgBox.setWindowIcon(windowIcon)
+    
+    msgBox.setIcon(QtGui.QMessageBox.Information)
+    if message_type.lower() == "warning":
+        msgBox.setIcon(QtGui.QMessageBox.Warning)
+    elif message_type.lower() == "error":
+        msgBox.setIcon(QtGui.QMessageBox.Critical)
+    
+    msgBox.setText(str(value))
     msgBox.exec_()
 
 class PathWrapper:
