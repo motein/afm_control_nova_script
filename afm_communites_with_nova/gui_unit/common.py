@@ -18,14 +18,18 @@ def select_file(selected_file, callback = None):
 
 def show_message_wrapper(message_wrapper):
     msgBox = QtGui.QMessageBox()
-    msgBox.setWindowTitle(" ")
+    
     message = message_wrapper.value
     if (isinstance(message, tuple)):
         message = message[0]
     try:
-        msgBox.setText("Message: " + message)
+        msgBox.setWindowTitle("Info")
+        msgBox.setIcon(QtGui.QMessageBox.Information)
+        msgBox.setText(message)
     except (Exception, AttributeError) as e:
-        msgBox.setText("Exception: " + e.message)
+        msgBox.setWindowTitle("Error")
+        msgBox.setIcon(QtGui.QMessageBox.Critical)
+        msgBox.setText(e.message)
     msgBox.exec_()
 
 def show_message(value, message_type='Info'):
