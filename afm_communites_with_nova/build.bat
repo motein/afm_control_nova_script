@@ -1,0 +1,1 @@
+pyinstaller -F -w -i PythonIcon.ico -n robot gui_unit/application.py
