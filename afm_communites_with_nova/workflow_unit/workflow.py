@@ -18,7 +18,7 @@ class Workflow:
         self.inProgress = False
         self.afm_controller =  AFMController()
         self.state_path = None
-        self.state_file_name = "/state_fin"
+        self.state_file_name = "state_fin"
         # Position Matrix
         self.position_matrix_type = None
         # Set-point Matrix
@@ -54,13 +54,14 @@ class Workflow:
                 show_message("Setpoint Matrix is not correct. Please check it.", "Error")
                 self.logger.error("Row_Column->" + row_column)
                 return
-
+        file_path = self.state_path + '/' + self.state_file_name
         for i in range(lines):
             for j in range(points):
-                call_back("(" + j +", " + i + ")")
+                
                 if self.inProgress == False: # Stop button pressed
                     return
                 
+                call_back("(" + j +", " + i + ")")
                 self.logger("i=" + i + ", j=" + j)
                 self.afm_controller.moveTip(j, i, self.settling_time_for_move)
                 if self.enable_setpoint_matrix == True:
@@ -69,7 +70,7 @@ class Workflow:
                     self.afm_controller.doApproach(self.settling_time_for_approach) # default set-point
                 self.afm_controller.sendTriggerSingal(self.high_vol, self.low_vol, self.holding_time)
                 acc_time = 0
-                while acc_time > TIMES_LIMIT and os.path.isfile(self.state_path + self.state_file_name) is not True:
+                while self.inProgress == False and acc_time > TIMES_LIMIT and os.path.isfile(file_path) != True:
                     time.sleep(self.state_check_interval)
                     acc_time += 1
                 
@@ -96,6 +97,9 @@ class Workflow:
     '''
     def set_state_path(self, state_path):
         self.state_path = state_path
+    
+    def set_state_file_name(self, state_file_name):
+        self.state_file_name = state_file_name
     
     def set_enable_setpoint_matrix(self, enable):
         self.enable_setpoint_matrix = enable

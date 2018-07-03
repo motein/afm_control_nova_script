@@ -4,6 +4,7 @@ from PySide import QtCore, QtGui
 from functools import partial
 from gui_unit.common import PathWrapper, select_directory, select_file, show_message, check_file_suffix
 from workflow_unit.workflow import Workflow
+from mailcap import show
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -64,7 +65,8 @@ class Ui_Form(object):
         self.stateFileLineEdit.setGeometry(QtCore.QRect(110, 90, 151, 20))
         self.stateFileLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.stateFileLineEdit.setObjectName("checkIntervalLineEdit")
-        self.stateFileLineEdit.textChanged.connect(self.checkIntervalLineEditTextChanged)
+        self.stateFileLineEdit.setText("state_fin")
+        self.stateFileLineEdit.textChanged.connect(self.stateFileLineEditTextChanged)
         
         self.checkIntervalLabel = QtGui.QLabel(self.stateGroupBox)
         self.checkIntervalLabel.setGeometry(QtCore.QRect(6, 130, 90, 16))
@@ -292,117 +294,148 @@ class Ui_Form(object):
 
     def enableMatrixSetpoingChanged(self):
         enabled = self.enableMatrixSetpoingRadio.isChecked()
-        show_message("Self-defined Setpoint Matrix enabled")
+        if enabled is True:
+            show_message("Self-defined Setpoint Matrix enabled.")
+        else:
+            show_message("Self-defined Setpoint Matrix disabled.")
         self.selectFileButton.setEnabled(enabled)
         self.sheetNameLineEdit.setEnabled(enabled)
     
-    def checkIntervalLineEditTextChanged(self):
-        interval = self.checkIntervalLineEdit.text()
+    def stateFileLineEditTextChanged(self):
+        state_file_name = self.stateFileLineEdit.text().strip()
         try:
-            if interval != "":
-                interval = float(interval)
-                if interval < 0:
-                    show_message("Invalid input, and must be no less than 0", "Error")
-                else:
-                    self.workflow.set_state_check_interval(interval)
-                show_message(interval)
+            if state_file_name != "":
+                self.workflow.set_state_file_name(state_file_name)
+            else:
+                show_message("Invalid input, and must be a non-empty string.", "Error")
+                self.stateFileLineEdit.textChanged.disconnect(self.stateFileLineEditTextChanged)
+                self.checkIntervalLineEdit.setText("")
+                self.stateFileLineEdit.textChanged.connect(self.stateFileLineEditTextChanged)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error")
+            show_message("Invalid input, and must be a non-empty string.", "Error")
+            self.stateFileLineEdit.textChanged.disconnect(self.stateFileLineEditTextChanged)
             self.checkIntervalLineEdit.setText("")
+            self.stateFileLineEdit.textChanged.connect(self.stateFileLineEditTextChanged)
+    
+    def checkIntervalLineEditTextChanged(self):
+        interval = self.checkIntervalLineEdit.text().strip()
+        try:
+            interval = float(interval)
+            if interval < 0:
+                show_message("Invalid input, and must be no less than 0.", "Error")
+            else:
+                self.workflow.set_state_check_interval(interval)
+            show_message(interval)
+        except Exception:
+            show_message("Invalid input, and must be a float.", "Error")
+            self.checkIntervalLineEdit.textChanged.disconnect(self.checkIntervalLineEditTextChanged)
+            self.checkIntervalLineEdit.setText("")
+            self.checkIntervalLineEdit.textChanged.connect(self.checkIntervalLineEditTextChanged)
     
     def sheetNameLineEditTextChanged(self):
-        sheet_name = self.sheetNameLineEdit.text()
+        sheet_name = self.sheetNameLineEdit.text().strip()
         try:
             if sheet_name != "":
                 self.workflow.set_setpoint_matrix_sheet_name(sheet_name)
-                show_message(sheet_name)
-        except Exception as e:
-            show_message(e.message, "warning")
+            else:
+                show_message("Invalid input, and must be a non-empty string.", "Error")
+                self.sheetNameLineEdit.textChanged.disconnect(self.sheetNameLineEditTextChanged)
+                self.sheetNameLineEdit.setText("")
+                self.sheetNameLineEdit.textChanged.connect(self.sheetNameLineEditTextChanged)
+        except Exception:
+            show_message("Invalid input, and must be a non-empty string.", "Error")
+            self.sheetNameLineEdit.textChanged.disconnect(self.sheetNameLineEditTextChanged)
             self.sheetNameLineEdit.setText("")
+            self.sheetNameLineEdit.textChanged.connect(self.sheetNameLineEditTextChanged)
 
     def approachTimeLineEditTextChanged(self):
-        time_value = self.approachTimeLineEdit.text()
+        time_value = self.approachTimeLineEdit.text().strip()
         try:
-            if time_value != "":
-                time_value = float(time_value)
-                if time_value < 0:
-                    show_message("Invalid input, and must be no less than 0", "Error")
-                else:
-                    self.workflow.set_settling_time_for_approach(time_value)
-                    show_message(time_value)
+            time_value = float(time_value)
+            if time_value < 0:
+                show_message("Invalid input, and must be no less than 0.", "Error")
+            else:
+                self.workflow.set_settling_time_for_approach(time_value)
+                show_message(time_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error")
+            show_message("Invalid input, and must be a float.", "Error")
+            self.approachTimeLineEdit.textChanged.disconnect(self.approachTimeLineEditTextChanged)
             self.approachTimeLineEdit.setText("")
+            self.approachTimeLineEdit.textChanged.connect(self.approachTimeLineEditTextChanged)
     
     def moveTimeLineEditTextChanged(self):
-        time_value = self.moveTimeLineEdit.text()
+        time_value = self.moveTimeLineEdit.text().strip()
         try:
-            if time_value != "":
-                time_value = float(time_value)
-                if time_value < 0:
-                    show_message("Invalid input, and must be no less than 0", "Error")
-                else:
-                    self.workflow.set_settling_time_for_move(time_value)
-                    show_message(time_value)
+            time_value = float(time_value)
+            if time_value < 0:
+                show_message("Invalid input, and must be no less than 0.", "Error")
+            else:
+                self.workflow.set_settling_time_for_move(time_value)
+                show_message(time_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error")
+            show_message("Invalid input, and must be a float.", "Error")
+            self.moveTimeLineEdit.textChanged.disconnect(self.moveTimeLineEditTextChanged)
             self.moveTimeLineEdit.setText("")
+            self.moveTimeLineEdit.textChanged.connect(self.moveTimeLineEditTextChanged)
     
     def highVolLineEditTextChanged(self):
-        voltage_value = self.highVolLineEdit.text()
+        voltage_value = self.highVolLineEdit.text().strip()
         if voltage_value == '-':
             return
         
         try:
-            if voltage_value != "":
-                voltage_value = float(voltage_value)
-                if voltage_value < -10:
-                    show_message("Clip value")
-                    self.highVolLineEdit.setText("-10")
-                elif voltage_value > 10:
-                    show_message("Clip value")
-                    self.highVolLineEdit.setText("10")
-                else:
-                    self.workflow.set_high_voltage(voltage_value)
-                    show_message(voltage_value)
+            voltage_value = float(voltage_value)
+            if voltage_value < -10:
+                show_message("Clip value.")
+                self.highVolLineEdit.setText("-10")
+            elif voltage_value > 10:
+                show_message("Clip value.")
+                self.highVolLineEdit.setText("10")
+            else:
+                self.workflow.set_high_voltage(voltage_value)
+                show_message(voltage_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error")
+            show_message("Invalid input, and must be a float.", "Error")
+            self.highVolLineEdit.textChanged.disconnect(self.highVolLineEditTextChanged)
             self.highVolLineEdit.setText("")
+            self.highVolLineEdit.textChanged.connect(self.highVolLineEditTextChanged)
             
     def lowVolLineEditTextChanged(self):
-        voltage_value = self.lowVolLineEdit.text()
+        voltage_value = self.lowVolLineEdit.text().strip()
         if voltage_value == '-':
             return
         
         try:
-            if voltage_value != "":
-                voltage_value = float(voltage_value)
-                if voltage_value < -10:
-                    show_message("Clip value")
-                    self.lowVolLineEdit.setText("-10")
-                elif voltage_value > 10:
-                    show_message("Clip value")
-                    self.lowVolLineEdit.setText("10")
-                else:
-                    self.workflow.set_low_voltage(voltage_value)
-                    show_message(voltage_value)
+            voltage_value = float(voltage_value)
+            if voltage_value < -10:
+                show_message("Clip value.")
+                self.lowVolLineEdit.setText("-10")
+            elif voltage_value > 10:
+                show_message("Clip value.")
+                self.lowVolLineEdit.setText("10")
+            else:
+                self.workflow.set_low_voltage(voltage_value)
+                show_message(voltage_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error")
+            show_message("Invalid input, and must be a float.", "Error")
+            self.lowVolLineEdit.textChanged.disconnect(self.lowVolLineEditTextChanged)
             self.lowVolLineEdit.setText("")
+            self.lowVolLineEdit.textChanged.connect(self.lowVolLineEditTextChanged)
             
     def holdingTimeLineEditTextChanged(self):
-        time_value = self.holdingTimeLineEdit.text()
+        time_value = self.holdingTimeLineEdit.text().strip()
         try:
-            if time_value != "":
-                time_value = float(time_value)
-                if time_value < 0:
-                    show_message("Invalid input, and must be no less than 0", "Error")
-                else:
-                    self.workflow.set_holding_time(time_value)
-                    show_message(time_value)
+            time_value = float(time_value)
+            if time_value < 0:
+                show_message("Invalid input, and must be no less than 0.", "Error")
+            else:
+                self.workflow.set_holding_time(time_value)
+                show_message(time_value)
         except Exception:
-            show_message("Invalid input, and must be a float", "Error")
+            show_message("Invalid input, and must be a float.", "Error")
+            self.holdingTimeLineEdit.textChanged.disconnect(self.holdingTimeLineEditTextChanged)
             self.holdingTimeLineEdit.setText("")
+            self.holdingTimeLineEdit.textChanged.connect(self.holdingTimeLineEditTextChanged)
     
     def setPositionInfoLabelText(self, content):
         style = "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600; color:#0000ff;\">" + content + "</span></p></body></html>"
@@ -419,7 +452,7 @@ class Ui_Form(object):
         self.progressBar.setProperty("value", 0)
         
         try:
-            show_message("Experiment started")
+            show_message("Experiment started...")
             self.workflow.start_to_work(self.setPositionInfoLabelText)
         finally:
             self.progressBar.setProperty("value", 100)
