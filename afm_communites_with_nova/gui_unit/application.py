@@ -2,7 +2,7 @@
 import time
 from PySide import QtCore, QtGui
 from functools import partial
-from gui_unit.common import PathWrapper, select_directory, select_file, show_message
+from gui_unit.common import PathWrapper, select_directory, select_file, show_message, check_file_suffix
 from workflow_unit.workflow import Workflow
 
 class Ui_Form(object):
@@ -46,6 +46,7 @@ class Ui_Form(object):
         self.stateFolderLineEdit.setGeometry(QtCore.QRect(110, 50, 151, 20))
         self.stateFolderLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.stateFolderLineEdit.setObjectName("stateFolderLineEdit")
+        self.stateFolderLineEdit.setEnabled(False)
         
         self.selected_folder = PathWrapper("") # Store folder path info
         self.selectFolderButton = QtGui.QPushButton(self.stateGroupBox)
@@ -283,13 +284,15 @@ class Ui_Form(object):
             self.stateFolderLineEdit.setText(self.selected_folder.value)
     
     def selected_file_callback(self):
-        if self.selected_folder is not None:
-            self.filePathLineEdit.setText(self.selected_file.value)
+        if self.selected_file is not None:
+            if check_file_suffix(self.selected_file.value, '.xlsx') is False:
+                show_message("The selected file is not a .xlsx one.", "Error")
+            else:
+                self.filePathLineEdit.setText(self.selected_file.value)
 
     def enableMatrixSetpoingChanged(self):
         enabled = self.enableMatrixSetpoingRadio.isChecked()
-        show_message(enabled)
-        self.filePathLineEdit.setEnabled(enabled)
+        show_message("Self-defined Setpoint Matrix enabled")
         self.selectFileButton.setEnabled(enabled)
         self.sheetNameLineEdit.setEnabled(enabled)
     
@@ -407,7 +410,7 @@ class Ui_Form(object):
         self.positionInfoLabel.setText(textContent)
     
     def startExperimentButtonClicked(self):
-        if self.workflow.get_inProgress() == True:
+        if self.workflow.get_inProgress() is True:
             return
         
         self.workflow.set_inProgress(True)
@@ -417,17 +420,16 @@ class Ui_Form(object):
         
         try:
             show_message("Experiment started")
-            time.sleep(3)
             self.workflow.start_to_work(self.setPositionInfoLabelText)
         finally:
             self.progressBar.setProperty("value", 100)
             self.workflow.set_inProgress(False)
+            self.positionInfoLabel.setText("")
             self.stopExperimentButton.setEnabled(False)
             self.startExperimentButton.setEnabled(True)
-            self.positionInfoLabel.setText("")
     
     def stopExperimentButtonClicked(self):
-        if self.workflow.get_inProgress() == True:
+        if self.workflow.get_inProgress() is True:
             self.workflow.set_inProgress(False)
         
 

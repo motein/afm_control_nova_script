@@ -7,7 +7,7 @@ Created on Jun 28, 2018
 import sys
 from PySide import QtCore, QtGui
 from functools import partial
-from gui_unit.common import select_directory, select_file, show_message_wrapper, PathWrapper
+from gui_unit.common import select_directory, select_file, show_message_wrapper, PathWrapper, check_file_suffix
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -52,7 +52,11 @@ def test2():
     path = PathWrapper()
     select_directory(path)
     print(path.value)
+
+def test_check_suffix():
+    print(check_file_suffix('E:\workspace\nova\afm_communites_with_nova\data/robot.log', '.log'))
     
 
 if __name__ == '__main__':
-    test()
+    #test()
+    test_check_suffix()
