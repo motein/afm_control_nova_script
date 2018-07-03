@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-import time
 from PySide import QtCore, QtGui
 from functools import partial
 from gui_unit.common import PathWrapper, select_directory, select_file, show_message, check_file_suffix
 from workflow_unit.workflow import Workflow
-from mailcap import show
 
 class Ui_Form(object):
     def setupUi(self, Form):

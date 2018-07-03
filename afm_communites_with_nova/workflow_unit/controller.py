@@ -4,11 +4,8 @@ Created on Jun 23, 2018
 
 @author: xiongan2
 '''
-import sys
 import picoscript
 import time
-import numpy as np
-from enum import Enum
 from tools.log import LogSystem
     
 class AFMController:
