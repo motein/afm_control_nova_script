@@ -32,7 +32,7 @@ class Ui_Form(object):
         '''State Path Settings
         '''
         self.stateGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
-        self.stateGroupBox.setGeometry(QtCore.QRect(30, 50, 391, 131))
+        self.stateGroupBox.setGeometry(QtCore.QRect(30, 50, 391, 171))
         self.stateGroupBox.setStyleSheet("font: 75 9pt \"微软雅黑\";")
         self.stateGroupBox.setFlat(False)
         self.stateGroupBox.setCheckable(False)
@@ -55,46 +55,31 @@ class Ui_Form(object):
         self.selectFolderButton.setObjectName("selectFolderButton")
         self.selectFolderButton.clicked.connect(partial(select_directory, self.selected_folder, self.selected_folder_callback)) # Click event
         
+        self.stateFileLabel = QtGui.QLabel(self.stateGroupBox)
+        self.stateFileLabel.setGeometry(QtCore.QRect(40, 90, 90, 16))
+        self.stateFileLabel.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.stateFileLabel.setObjectName("checkIntervalLabel")
+        
+        self.stateFileLineEdit = QtGui.QLineEdit(self.stateGroupBox)
+        self.stateFileLineEdit.setGeometry(QtCore.QRect(110, 90, 151, 20))
+        self.stateFileLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
+        self.stateFileLineEdit.setObjectName("checkIntervalLineEdit")
+        self.stateFileLineEdit.textChanged.connect(self.checkIntervalLineEditTextChanged)
+        
         self.checkIntervalLabel = QtGui.QLabel(self.stateGroupBox)
-        self.checkIntervalLabel.setGeometry(QtCore.QRect(6, 90, 90, 16))
+        self.checkIntervalLabel.setGeometry(QtCore.QRect(6, 130, 90, 16))
         self.checkIntervalLabel.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.checkIntervalLabel.setObjectName("checkIntervalLabel")
         
         self.checkIntervalLineEdit = QtGui.QLineEdit(self.stateGroupBox)
-        self.checkIntervalLineEdit.setGeometry(QtCore.QRect(110, 90, 151, 20))
+        self.checkIntervalLineEdit.setGeometry(QtCore.QRect(110, 130, 151, 20))
         self.checkIntervalLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.checkIntervalLineEdit.setObjectName("checkIntervalLineEdit")
         self.checkIntervalLineEdit.textChanged.connect(self.checkIntervalLineEditTextChanged)
-        '''Position Matrix Type Settings region
-        '''
-        self.positionSettingsGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
-        self.positionSettingsGroupBox.setGeometry(QtCore.QRect(30, 200, 391, 81))
-        self.positionSettingsGroupBox.setStyleSheet("font: 75 9pt \"微软雅黑\";")
-        self.positionSettingsGroupBox.setFlat(False)
-        self.positionSettingsGroupBox.setCheckable(False)
-        self.positionSettingsGroupBox.setObjectName("positionSettingsGroupBox")
-        
-        self.matrixTypeLabel = QtGui.QLabel(self.positionSettingsGroupBox)
-        self.matrixTypeLabel.setGeometry(QtCore.QRect(20, 40, 71, 16))
-        self.matrixTypeLabel.setStyleSheet("font: 8pt \"Times New Roman\";")
-        self.matrixTypeLabel.setObjectName("matrixTypeLabel")
-        
-        self.matrixTypeCombo = QtGui.QComboBox(self.positionSettingsGroupBox)
-        self.matrixTypeCombo.setGeometry(QtCore.QRect(110, 40, 151, 22))
-        self.matrixTypeCombo.setStyleSheet("font: 8pt \"Times New Roman\";")
-        self.matrixTypeCombo.setObjectName("matrixTypeCombo")
-        self.matrixTypeCombo.addItem("")
-        self.matrixTypeCombo.addItem("")
-        self.matrixTypeCombo.addItem("")
-        self.matrixTypeCombo.addItem("")
-        self.matrixTypeCombo.addItem("")
-        self.matrixTypeCombo.addItem("")
-        self.matrixTypeCombo.addItem("")
-        self.matrixTypeCombo.currentIndexChanged.connect(self.matrixTypeChanged)
         '''Set-point Matrix Settings region
         '''
         self.setpointSettingsGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
-        self.setpointSettingsGroupBox.setGeometry(QtCore.QRect(30, 310, 391, 151))
+        self.setpointSettingsGroupBox.setGeometry(QtCore.QRect(30, 240, 391, 151))
         self.setpointSettingsGroupBox.setStyleSheet("font: 75 9pt \"微软雅黑\";")
         self.setpointSettingsGroupBox.setFlat(False)
         self.setpointSettingsGroupBox.setCheckable(False)
@@ -137,6 +122,16 @@ class Ui_Form(object):
         self.sheetNameLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.sheetNameLineEdit.setObjectName("sheetNameLineEdit")
         self.sheetNameLineEdit.textChanged.connect(self.sheetNameLineEditTextChanged)
+        '''Position Info region
+        '''        
+        self.positionInfoGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
+        self.positionInfoGroupBox.setGeometry(QtCore.QRect(30, 400, 391, 61))
+        self.positionInfoGroupBox.setStyleSheet("font: 75 9pt \"微软雅黑\";")
+        self.positionInfoGroupBox.setObjectName("positionInfoGroupBox")
+        self.positionInfoLabel = QtGui.QLabel(self.positionInfoGroupBox)
+        self.positionInfoLabel.setGeometry(QtCore.QRect(160, 20, 151, 31))
+        self.positionInfoLabel.setStyleSheet("font: 75 12pt \"Arial\"")
+        self.positionInfoLabel.setObjectName("positionInfoLabel")
         '''Settling time region
         '''
         self.timeGroupBox = QtGui.QGroupBox(self.experimentSettingsGroupBox)
@@ -246,18 +241,8 @@ class Ui_Form(object):
         self.stateGroupBox.setTitle(QtGui.QApplication.translate("Form", "State Path Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.stateFolderLabel.setText(QtGui.QApplication.translate("Form", "State Path:", None, QtGui.QApplication.UnicodeUTF8))
         self.selectFolderButton.setText(QtGui.QApplication.translate("Form", "Select Folder", None, QtGui.QApplication.UnicodeUTF8))
+        self.stateFileLabel.setText(QtGui.QApplication.translate("Form", "State File:", None, QtGui.QApplication.UnicodeUTF8))
         self.checkIntervalLabel.setText(QtGui.QApplication.translate("Form", "Check Interval(s):", None, QtGui.QApplication.UnicodeUTF8))
-        '''Position Matrix Type Settings region
-        '''
-        self.positionSettingsGroupBox.setTitle(QtGui.QApplication.translate("Form", "Position Matrix Type Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.matrixTypeLabel.setText(QtGui.QApplication.translate("Form", "Matrix Type:", None, QtGui.QApplication.UnicodeUTF8))
-        self.matrixTypeCombo.setItemText(0, QtGui.QApplication.translate("Form", "    8 × 8", None, QtGui.QApplication.UnicodeUTF8))
-        self.matrixTypeCombo.setItemText(1, QtGui.QApplication.translate("Form", "  16 × 16", None, QtGui.QApplication.UnicodeUTF8))
-        self.matrixTypeCombo.setItemText(2, QtGui.QApplication.translate("Form", "  32 × 32", None, QtGui.QApplication.UnicodeUTF8))
-        self.matrixTypeCombo.setItemText(3, QtGui.QApplication.translate("Form", "  64 × 64", None, QtGui.QApplication.UnicodeUTF8))
-        self.matrixTypeCombo.setItemText(4, QtGui.QApplication.translate("Form", "128 × 128", None, QtGui.QApplication.UnicodeUTF8))
-        self.matrixTypeCombo.setItemText(5, QtGui.QApplication.translate("Form", "256 × 256", None, QtGui.QApplication.UnicodeUTF8))
-        self.matrixTypeCombo.setItemText(6, QtGui.QApplication.translate("Form", "512 × 512", None, QtGui.QApplication.UnicodeUTF8))
         '''Set-point Matrix Settings region
         '''
         self.setpointSettingsGroupBox.setTitle(QtGui.QApplication.translate("Form", "Setpoint Matrix Settings", None, QtGui.QApplication.UnicodeUTF8))
@@ -265,6 +250,10 @@ class Ui_Form(object):
         self.selectFileButton.setText(QtGui.QApplication.translate("Form", "Select File", None, QtGui.QApplication.UnicodeUTF8))
         self.enableMatrixSetpoingRadio.setText(QtGui.QApplication.translate("Form", "Enable Setpoint Matrix", None, QtGui.QApplication.UnicodeUTF8))
         self.sheetNameLabel.setText(QtGui.QApplication.translate("Form", "Sheet Name:", None, QtGui.QApplication.UnicodeUTF8))
+        '''Position Info region
+        '''
+        self.positionInfoGroupBox.setTitle(QtGui.QApplication.translate("Form", "Position Info", None, QtGui.QApplication.UnicodeUTF8))
+        self.positionInfoLabel.setText(QtGui.QApplication.translate("Form", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600; color:#0000ff;\">(0, 0)</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         '''Settling time region
         '''
         self.timeGroupBox.setTitle(QtGui.QApplication.translate("Form", "Settling Time Settings", None, QtGui.QApplication.UnicodeUTF8))

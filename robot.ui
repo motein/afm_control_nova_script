@@ -126,7 +126,7 @@
     <widget class="QLabel" name="label_8">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>40</x>
        <y>90</y>
        <width>51</width>
        <height>16</height>
@@ -136,7 +136,7 @@
       <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
-      <string>State File</string>
+      <string>State File:</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_8">
@@ -155,9 +155,9 @@
     <widget class="QLabel" name="label_9">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>6</x>
        <y>130</y>
-       <width>81</width>
+       <width>90</width>
        <height>16</height>
       </rect>
      </property>
@@ -165,7 +165,7 @@
       <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
-      <string>Check Interval:</string>
+      <string>Check Interval(s):</string>
      </property>
     </widget>
    </widget>
@@ -321,7 +321,7 @@
       <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
-      <string>Approach Settling Time:</string>
+      <string>Approach Settling Time(s):</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_4">
@@ -363,7 +363,7 @@
       <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
-      <string>Move Settling Time:</string>
+      <string>Move Settling Time(s):</string>
      </property>
     </widget>
    </widget>
@@ -387,7 +387,7 @@
       <rect>
        <x>90</x>
        <y>50</y>
-       <width>71</width>
+       <width>80</width>
        <height>16</height>
       </rect>
      </property>
@@ -395,7 +395,7 @@
       <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
-      <string>High Voltage:</string>
+      <string>High Voltage(V):</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_9">
@@ -429,7 +429,7 @@
       <rect>
        <x>90</x>
        <y>90</y>
-       <width>71</width>
+       <width>80</width>
        <height>16</height>
       </rect>
      </property>
@@ -437,7 +437,7 @@
       <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
-      <string>Low Voltage:</string>
+      <string>Low Voltage(V):</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_13">
@@ -458,7 +458,7 @@
       <rect>
        <x>90</x>
        <y>130</y>
-       <width>71</width>
+       <width>80</width>
        <height>16</height>
       </rect>
      </property>
@@ -466,7 +466,7 @@
       <string notr="true">font: 8pt &quot;Times New Roman&quot;;</string>
      </property>
      <property name="text">
-      <string>Holding Time:</string>
+      <string>Holding Time(s):</string>
      </property>
     </widget>
    </widget>
