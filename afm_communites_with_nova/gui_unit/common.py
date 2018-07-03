@@ -5,6 +5,24 @@ Created on Jun 28, 2018
 @author: xiongan2
 '''
 from PySide import QtGui
+from os import path
+
+def check_file_suffix(file_path, file_suffix):
+    result = get_file_suffix(file_path)
+    if (result == file_suffix):
+        return True
+    
+    return False
+
+def get_file_suffix(file_path):
+    result = path.splitext(file_path)
+#     print(result)
+    return result[-1]
+
+def get_file_name(file_path):
+    result = path.split(file_path)
+#     print(result)
+    return result[-1] 
 
 def select_directory(selected_directory, callback = None):
     selected_directory.value = QtGui.QFileDialog.getExistingDirectory()
