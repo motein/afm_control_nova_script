@@ -22,10 +22,10 @@ def read_excel_file(file_path, sheet_name):
 #     print(data_matrix)
     return data_matrix
 
-def validate_matrix(data_matrix, points_number):
+def validate_matrix(data_matrix, points, lines):
     row_column = data_matrix.shape
     result = True
-    if row_column[0] != points_number and row_column[1] != points_number:
+    if row_column[0] != points or row_column[1] != lines:
         result = False
     
     return result, row_column

@@ -38,37 +38,35 @@ class Workflow:
     '''
     Start to do the experiment
     '''    
-    def start_to_work(self):
+    def start_to_work(self, call_back):
         if self.check_experiment_conditions() == False:
             show_message("Please prepare your experiment parameters.", "Error")
             return
             
         self.afm_controller.prepareAfmExperiment()
-        self.afm_controller.calcPositionMatrix(self.position_matrix_type)
-        num = self.afm_controller.getPointsNumber()
+        points = self.afm_controller.getPoints()
+        lines = self.afm_controller.getLines()
         
         if self.enable_setpoint_matrix == True:
             self.setpoint_matrix = read_excel_file(self.setpoint_matrix_file_path, self.setpoint_matrix_sheet_name)
-            result, row_column = validate_matrix(self.setpoint_matrix, num)
+            result, row_column = validate_matrix(self.setpoint_matrix, points, lines)
             if result == False:
                 show_message("Setpoint Matrix is not correct. Please check it.", "Error")
                 self.logger.error("Row_Column->" + row_column)
                 return
 
-        for i in range(num):
-            for j in range(num):
+        for i in range(lines):
+            for j in range(points):
+                call_back("(" + j +", " + i + ")")
                 if self.inProgress == False: # Stop button pressed
                     return
                 
                 self.logger("i=" + i + ", j=" + j)
-                fast, slow = self.afm_controller.getPositionbyIndex(i, j)
-                self.afm_controller.moveTip(fast, slow)
-                time.sleep(self.settling_time_for_move) # settle
+                self.afm_controller.moveTip(j, i, self.settling_time_for_move)
                 if self.enable_setpoint_matrix == True:
-                    self.afm_controller.doApproach(self.setpoint_matrix[i, j]) # self defined set-point
+                    self.afm_controller.doApproach(self.settling_time_for_approach, self.setpoint_matrix[i, j]) # self defined set-point
                 else:
-                    self.afm_controller.doApproach() # default set-point
-                time.sleep(self.settling_time_for_approach)
+                    self.afm_controller.doApproach(self.settling_time_for_approach) # default set-point
                 self.afm_controller.sendTriggerSingal(self.high_vol, self.low_vol, self.holding_time)
                 acc_time = 0
                 while acc_time > TIMES_LIMIT and os.path.isfile(self.state_path + self.state_file_name) is not True:
@@ -98,9 +96,6 @@ class Workflow:
     '''
     def set_state_path(self, state_path):
         self.state_path = state_path
-    
-    def set_position_matrix_type(self, matrix_type):
-        self.position_matrix_type = matrix_type
     
     def set_enable_setpoint_matrix(self, enable):
         self.enable_setpoint_matrix = enable

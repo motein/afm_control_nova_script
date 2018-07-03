@@ -4,7 +4,6 @@ from PySide import QtCore, QtGui
 from functools import partial
 from gui_unit.common import PathWrapper, select_directory, select_file, show_message
 from workflow_unit.workflow import Workflow
-from workflow_unit.controller import Matrix_Type
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -253,7 +252,6 @@ class Ui_Form(object):
         '''Position Info region
         '''
         self.positionInfoGroupBox.setTitle(QtGui.QApplication.translate("Form", "Position Info", None, QtGui.QApplication.UnicodeUTF8))
-        self.positionInfoLabel.setText(QtGui.QApplication.translate("Form", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600; color:#0000ff;\">(0, 0)</span></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
         '''Settling time region
         '''
         self.timeGroupBox.setTitle(QtGui.QApplication.translate("Form", "Settling Time Settings", None, QtGui.QApplication.UnicodeUTF8))
@@ -294,25 +292,6 @@ class Ui_Form(object):
         self.filePathLineEdit.setEnabled(enabled)
         self.selectFileButton.setEnabled(enabled)
         self.sheetNameLineEdit.setEnabled(enabled)
-
-    def matrixTypeChanged(self):
-        index = self.matrixTypeCombo.currentIndex() # Index from 0
-        if index == 0:
-            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_8_8)
-        elif index == 1:
-            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_16_16)
-        elif index == 2:
-            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_32_32)
-        elif index == 3:
-            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_64_64)
-        elif index == 4:
-            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_128_128)
-        elif index == 5:
-            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_256_256)
-        elif index == 6:
-            self.workflow.set_position_matrix_type(Matrix_Type.MATRIX_512_512)
-            
-        show_message(index)
     
     def checkIntervalLineEditTextChanged(self):
         interval = self.checkIntervalLineEdit.text()
@@ -422,6 +401,11 @@ class Ui_Form(object):
             show_message("Invalid input, and must be a float", "Error")
             self.holdingTimeLineEdit.setText("")
     
+    def setPositionInfoLabelText(self, content):
+        style = "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600; color:#0000ff;\">" + content + "</span></p></body></html>"
+        textContent = QtGui.QApplication.translate("Form", style, None, QtGui.QApplication.UnicodeUTF8)
+        self.positionInfoLabel.setText(textContent)
+    
     def startExperimentButtonClicked(self):
         if self.workflow.get_inProgress() == True:
             return
@@ -434,12 +418,13 @@ class Ui_Form(object):
         try:
             show_message("Experiment started")
             time.sleep(3)
-            self.workflow.start_to_work()
+            self.workflow.start_to_work(self.setPositionInfoLabelText)
         finally:
             self.progressBar.setProperty("value", 100)
             self.workflow.set_inProgress(False)
             self.stopExperimentButton.setEnabled(False)
             self.startExperimentButton.setEnabled(True)
+            self.positionInfoLabel.setText("")
     
     def stopExperimentButtonClicked(self):
         if self.workflow.get_inProgress() == True:
@@ -454,4 +439,5 @@ if __name__ == "__main__":
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())
-
+    
+    
