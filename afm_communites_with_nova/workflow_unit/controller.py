@@ -29,7 +29,7 @@ class AFMController:
         time.sleep(settling_time)
     
     def doWithdraw(self):
-        picoscript.MotorWithdraw(self)
+        picoscript.MotorWithdraw()
     
     def moveTip(self, fast, slow, settling_time):
         picoscript.SetTipPosition(fast, slow)
