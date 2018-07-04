@@ -3,6 +3,7 @@ from PySide import QtCore, QtGui
 from functools import partial
 from gui_unit.common import PathWrapper, select_directory, select_file, show_message, check_file_suffix
 from workflow_unit.workflow import Workflow
+from tools.config import ConfigureFile
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -20,6 +21,7 @@ class Ui_Form(object):
         '''Workflow region
         '''
         self.workflow = Workflow()
+        self.conf = ConfigureFile.get_config()
         '''Experiment Settings region
         '''
         self.experimentSettingsGroupBox = QtGui.QGroupBox(Form)
@@ -63,7 +65,7 @@ class Ui_Form(object):
         self.stateFileLineEdit.setGeometry(QtCore.QRect(110, 90, 151, 20))
         self.stateFileLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.stateFileLineEdit.setObjectName("checkIntervalLineEdit")
-        self.stateFileLineEdit.setText("state_fin")
+        self.stateFileLineEdit.setText(self.conf.get('DEFAULT', 'StateFileName'))
         self.stateFileLineEdit.textChanged.connect(self.stateFileLineEditTextChanged)
         
         self.checkIntervalLabel = QtGui.QLabel(self.stateGroupBox)
@@ -75,6 +77,7 @@ class Ui_Form(object):
         self.checkIntervalLineEdit.setGeometry(QtCore.QRect(110, 130, 151, 20))
         self.checkIntervalLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.checkIntervalLineEdit.setObjectName("checkIntervalLineEdit")
+        self.checkIntervalLineEdit.setText(self.conf.get('DEFAULT', 'StateCheckInterval'))
         self.checkIntervalLineEdit.textChanged.connect(self.checkIntervalLineEditTextChanged)
         '''Set-point Matrix Settings region
         '''
@@ -90,6 +93,7 @@ class Ui_Form(object):
         self.enableMatrixSetpoingRadio.setGeometry(QtCore.QRect(20, 40, 161, 16))
         self.enableMatrixSetpoingRadio.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.enableMatrixSetpoingRadio.setObjectName("enableMatrixSetpoingRadio")
+        self.enableMatrixSetpoingRadio.setChecked(self.conf.getboolean('DEFAULT', 'EnableSetpointMatrix'))
         self.enableMatrixSetpoingRadio.toggled.connect(self.enableMatrixSetpoingChanged)
         
         self.filePathLabel = QtGui.QLabel(self.setpointSettingsGroupBox)
@@ -148,6 +152,7 @@ class Ui_Form(object):
         self.approachTimeLineEdit.setGeometry(QtCore.QRect(180, 50, 161, 20))
         self.approachTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.approachTimeLineEdit.setObjectName("approachTimeLineEdit")
+        self.approachTimeLineEdit.setText(self.conf.get('DEFAULT', 'SettlingTimeForApproach'))
         self.approachTimeLineEdit.textChanged.connect(self.approachTimeLineEditTextChanged)
 
         self.moveSettlingTime = QtGui.QLabel(self.timeGroupBox)
@@ -159,6 +164,7 @@ class Ui_Form(object):
         self.moveTimeLineEdit.setGeometry(QtCore.QRect(180, 90, 161, 20))
         self.moveTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.moveTimeLineEdit.setObjectName("moveTimeLineEdit")
+        self.moveTimeLineEdit.setText(self.conf.get('DEFAULT', 'SettlingTimeForMove'))
         self.moveTimeLineEdit.textChanged.connect(self.moveTimeLineEditTextChanged)
         '''Trigger Signal Settings region
         '''
@@ -176,6 +182,7 @@ class Ui_Form(object):
         self.highVolLineEdit.setGeometry(QtCore.QRect(180, 50, 161, 20))
         self.highVolLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.highVolLineEdit.setObjectName("highVolLineEdit")
+        self.highVolLineEdit.setText(self.conf.get('DEFAULT', 'HighVoltage'))
         self.highVolLineEdit.textChanged.connect(self.highVolLineEditTextChanged)
 
         self.lowVolLabel = QtGui.QLabel(self.triggerSettingsGroupBox)
@@ -187,6 +194,7 @@ class Ui_Form(object):
         self.lowVolLineEdit.setGeometry(QtCore.QRect(180, 90, 161, 20))
         self.lowVolLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.lowVolLineEdit.setObjectName("lowVolLineEdit")
+        self.lowVolLineEdit.setText(self.conf.get('DEFAULT', 'LowVoltage'))
         self.lowVolLineEdit.textChanged.connect(self.lowVolLineEditTextChanged)
 
         self.holdingTimeLabel = QtGui.QLabel(self.triggerSettingsGroupBox)
@@ -198,6 +206,7 @@ class Ui_Form(object):
         self.holdingTimeLineEdit.setGeometry(QtCore.QRect(180, 130, 161, 20))
         self.holdingTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.holdingTimeLineEdit.setObjectName("holdingTimeLineEdit")
+        self.holdingTimeLineEdit.setText(self.conf.get('DEFAULT', 'HoldingTime'))
         self.holdingTimeLineEdit.textChanged.connect(self.holdingTimeLineEditTextChanged)
         '''Progress region
         '''
@@ -307,12 +316,12 @@ class Ui_Form(object):
             else:
                 show_message("Invalid input, and must be a non-empty string.", "Error")
                 self.stateFileLineEdit.textChanged.disconnect(self.stateFileLineEditTextChanged)
-                self.checkIntervalLineEdit.setText("")
+                self.stateFileLineEdit.setText(self.workflow.get_state_file_name())
                 self.stateFileLineEdit.textChanged.connect(self.stateFileLineEditTextChanged)
         except Exception:
             show_message("Invalid input, and must be a non-empty string.", "Error")
             self.stateFileLineEdit.textChanged.disconnect(self.stateFileLineEditTextChanged)
-            self.checkIntervalLineEdit.setText("")
+            self.stateFileLineEdit.setText(self.workflow.get_state_file_name())
             self.stateFileLineEdit.textChanged.connect(self.stateFileLineEditTextChanged)
     
     def checkIntervalLineEditTextChanged(self):
@@ -327,7 +336,7 @@ class Ui_Form(object):
         except Exception:
             show_message("Invalid input, and must be a float.", "Error")
             self.checkIntervalLineEdit.textChanged.disconnect(self.checkIntervalLineEditTextChanged)
-            self.checkIntervalLineEdit.setText("")
+            self.checkIntervalLineEdit.setText(str(self.workflow.get_state_check_interval()))
             self.checkIntervalLineEdit.textChanged.connect(self.checkIntervalLineEditTextChanged)
     
     def sheetNameLineEditTextChanged(self):
@@ -358,7 +367,7 @@ class Ui_Form(object):
         except Exception:
             show_message("Invalid input, and must be a float.", "Error")
             self.approachTimeLineEdit.textChanged.disconnect(self.approachTimeLineEditTextChanged)
-            self.approachTimeLineEdit.setText("")
+            self.approachTimeLineEdit.setText(str(self.workflow.get_settling_time_for_approach()))
             self.approachTimeLineEdit.textChanged.connect(self.approachTimeLineEditTextChanged)
     
     def moveTimeLineEditTextChanged(self):
@@ -373,7 +382,7 @@ class Ui_Form(object):
         except Exception:
             show_message("Invalid input, and must be a float.", "Error")
             self.moveTimeLineEdit.textChanged.disconnect(self.moveTimeLineEditTextChanged)
-            self.moveTimeLineEdit.setText("")
+            self.moveTimeLineEdit.setText(str(self.workflow.get_settling_time_for_move()))
             self.moveTimeLineEdit.textChanged.connect(self.moveTimeLineEditTextChanged)
     
     def highVolLineEditTextChanged(self):
@@ -395,7 +404,7 @@ class Ui_Form(object):
         except Exception:
             show_message("Invalid input, and must be a float.", "Error")
             self.highVolLineEdit.textChanged.disconnect(self.highVolLineEditTextChanged)
-            self.highVolLineEdit.setText("")
+            self.highVolLineEdit.setText(str(self.workflow.get_high_voltage()))
             self.highVolLineEdit.textChanged.connect(self.highVolLineEditTextChanged)
             
     def lowVolLineEditTextChanged(self):
@@ -417,7 +426,7 @@ class Ui_Form(object):
         except Exception:
             show_message("Invalid input, and must be a float.", "Error")
             self.lowVolLineEdit.textChanged.disconnect(self.lowVolLineEditTextChanged)
-            self.lowVolLineEdit.setText("")
+            self.lowVolLineEdit.setText(str(self.workflow.get_low_voltage()))
             self.lowVolLineEdit.textChanged.connect(self.lowVolLineEditTextChanged)
             
     def holdingTimeLineEditTextChanged(self):
@@ -432,7 +441,7 @@ class Ui_Form(object):
         except Exception:
             show_message("Invalid input, and must be a float.", "Error")
             self.holdingTimeLineEdit.textChanged.disconnect(self.holdingTimeLineEditTextChanged)
-            self.holdingTimeLineEdit.setText("")
+            self.holdingTimeLineEdit.setText(str(self.workflow.get_holding_time()))
             self.holdingTimeLineEdit.textChanged.connect(self.holdingTimeLineEditTextChanged)
     
     def setPositionInfoLabelText(self, content):

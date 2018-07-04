@@ -12,7 +12,7 @@ class ConfigureFile(object):
     def get_config():
         if ConfigureFile.__config is None:
             ConfigureFile.__config = ConfigParser.ConfigParser()
-            ConfigureFile.__config.read('../config.ini')
+            ConfigureFile.__config.read('config.ini')
         
         return ConfigureFile.__config
     get_config = staticmethod(get_config)
