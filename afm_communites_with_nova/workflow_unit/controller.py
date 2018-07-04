@@ -16,8 +16,8 @@ class AFMController:
         self.points = None
         self.lines = None
         self.setpoint = None
-        self.approach_status_delay = 3
-        self.move_status_delay = 3
+        self.approach_status_delay = self.conf.getfloat('DEFAULT', 'ApproachStatusDelay')
+        self.move_status_delay = self.conf.getfloat('DEFAULT', 'MoveStatusDelay')
         
     def prepareAfmExperiment(self):
         self.points = picoscript.GetScanXPixels()
