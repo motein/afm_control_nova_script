@@ -7,13 +7,17 @@ Created on Jun 23, 2018
 import picoscript
 import time
 from tools.log import LogSystem
+from tools.config import ConfigureFile
     
 class AFMController:
     def __init__(self):
         self.logger = LogSystem.get_log("AFMController")
+        self.conf = ConfigureFile.get_config()
         self.points = None
         self.lines = None
         self.setpoint = None
+        self.approach_status_delay = 3
+        self.move_status_delay = 3
         
     def prepareAfmExperiment(self):
         self.points = picoscript.GetScanXPixels()
@@ -25,7 +29,8 @@ class AFMController:
             picoscript.SetServoSetpoint(setpoint)
             
         picoscript.MotorApproach()
-        picoscript.WaitForStatusApproachState(1)
+        time.sleep(self.approach_status_delay)
+        picoscript.WaitForStatusApproachState(0)
         time.sleep(settling_time)
     
     def doWithdraw(self):
@@ -33,6 +38,8 @@ class AFMController:
     
     def moveTip(self, fast, slow, settling_time):
         picoscript.SetTipPosition(fast, slow)
+        time.sleep(self.move_status_delay)
+        picoscript.WaitForStatusTipMoving(0)
         time.sleep(settling_time)
     
     def sendTriggerSingal(self, high_vol, low_vol, holding_time):

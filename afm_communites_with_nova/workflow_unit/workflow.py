@@ -61,8 +61,8 @@ class Workflow:
                 if self.inProgress == False: # Stop button pressed
                     return
                 
-                call_back("(" + j +", " + i + ")")
-                self.logger("i=" + i + ", j=" + j)
+                call_back("(" + str(j) +", " + str(i) + ")")
+                self.logger.info("i=" + str(i) + ", j=" + str(j))
                 self.afm_controller.moveTip(j, i, self.settling_time_for_move)
                 if self.enable_setpoint_matrix == True:
                     self.afm_controller.doApproach(self.settling_time_for_approach, self.setpoint_matrix[i, j]) # self defined set-point
