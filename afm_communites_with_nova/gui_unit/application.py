@@ -291,6 +291,7 @@ class Ui_Form(object):
     def selected_folder_callback(self):
         if self.selected_folder is not None:
             self.stateFolderLineEdit.setText(self.selected_folder.value)
+            self.workflow.set_state_path(self.selected_folder.value)
     
     def selected_file_callback(self):
         if self.selected_file is not None:

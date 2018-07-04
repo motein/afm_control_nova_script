@@ -5,4 +5,4 @@ afm_communites_with_nova/dist/*
 afm_communites_with_nova/*.spec
 afm_communites_with_nova/workflow_unit/*.pyc
 afm_communites_with_nova/tools/*.pyc
-afm_communites_with_nova/data/*.log
+afm_communites_with_nova/*/*.log
