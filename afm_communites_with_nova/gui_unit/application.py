@@ -449,6 +449,7 @@ class Ui_Form(object):
         style = "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600; color:#0000ff;\">" + content + "</span></p></body></html>"
         textContent = QtGui.QApplication.translate("Form", style, None, QtGui.QApplication.UnicodeUTF8)
         self.positionInfoLabel.setText(textContent)
+        QtGui.QApplication.processEvents()
     
     def startExperimentButtonClicked(self):
         if self.workflow.get_inProgress() is True:
@@ -472,7 +473,6 @@ class Ui_Form(object):
     def stopExperimentButtonClicked(self):
         if self.workflow.get_inProgress() is True:
             self.workflow.set_inProgress(False)
-        
 
 if __name__ == "__main__":
     import sys
