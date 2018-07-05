@@ -43,7 +43,7 @@ class Workflow:
     '''
     Start to do the experiment
     '''    
-    def start_to_work(self, ui, call_back):
+    def start_to_work(self, ui, position_callback, progress_callback):
         if self.check_experiment_conditions() == False:
             ui.com.speak_message.emit("Please prepare your experiment parameters.", "Error")
             time.sleep(self.mid_delay)
@@ -70,8 +70,8 @@ class Workflow:
                 
                 if Workflow.InProgress == False: # Stop button pressed
                     return
-                if call_back != None:
-                    call_back("(" + str(j) +", " + str(i) + ")")
+                if position_callback != None:
+                    position_callback("(" + str(j) +", " + str(i) + ")")
                     time.sleep(self.short_delay)
                 self.logger.info("i=" + str(i) + ", j=" + str(j))
                 self.afm_controller.moveTip(j, i, self.settling_time_for_move)
@@ -84,7 +84,10 @@ class Workflow:
                 while Workflow.InProgress == False and acc_time > self.check_time_limit and os.path.isfile(file_path) != True:
                     time.sleep(self.state_check_interval)
                     acc_time += 1
-                
+                progress_value = (i * points + j + 1) * 100.0 / (lines * points);
+                print(progress_value)
+                progress_callback(progress_value)
+                time.sleep(self.short_delay)
                 self.afm_controller.doWithdraw()
     
     def check_experiment_conditions(self):

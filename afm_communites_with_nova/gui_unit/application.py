@@ -452,6 +452,10 @@ class Ui_Form(object):
     def setPositionInfoLabelText(self, content):
         self.positionInfoLabel.setText(content)
         QtGui.QApplication.processEvents()
+        
+    def updateProgress(self, value):
+        self.progressBar.setProperty("value", value)
+        QtGui.QApplication.processEvents()
     
 if __name__ == "__main__":
     import sys

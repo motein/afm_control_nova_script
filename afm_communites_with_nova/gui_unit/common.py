@@ -121,7 +121,7 @@ class StartRunnable(QRunnable):
         try:
             self.ui.com.speak_message.emit("Experiment started...", "Info")
             time.sleep(self.mid_delay )
-            self.ui.workflow.start_to_work(self.ui, self.ui.setPositionInfoLabelText)
+            self.ui.workflow.start_to_work(self.ui, self.ui.setPositionInfoLabelText, self.ui.updateProgress)
         finally:
             self.ui.progressBar.setProperty("value", 100)
             QtGui.QApplication.processEvents()
