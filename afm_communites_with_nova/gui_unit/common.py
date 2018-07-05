@@ -88,6 +88,7 @@ def speak_message(value, message_type='Info'):
         msgBox.setIcon(QtGui.QMessageBox.Critical)
     msgBox.setText(str(value))
     msgBox.exec_()
+    time.sleep(1)
     
 class Communicate(QObject):                                                   
     speak_message = Signal(str, str)
@@ -102,19 +103,32 @@ class StartRunnable(QRunnable):
         if Workflow.InProgress == True:
             return
         
-#             Workflow.InProgress = True
-#             self.ui.startExperimentButton.setEnabled(False)
-#             self.ui.stopExperimentButton.setEnabled(True)
-#             self.ui.progressBar.setProperty("value", 0)
+        Workflow.InProgress = True
+        self.ui.startExperimentButton.setEnabled(False)
+        QtGui.QApplication.processEvents()
+        time.sleep(0.5)
+        self.ui.stopExperimentButton.setEnabled(True)
+        QtGui.QApplication.processEvents()
+        time.sleep(0.5)
+        self.ui.progressBar.setProperty("value", 0)
+        QtGui.QApplication.processEvents()
+        time.sleep(0.5)
+        
         try:
             self.ui.com.speak_message.emit("Experiment started...", "Info")
-            time.sleep(4)
-            #self.ui.start_to_run()
+            time.sleep(1)
+            self.ui.workflow.start_to_work(self.ui, self.ui.setPositionInfoLabelText)
         finally:
             self.ui.progressBar.setProperty("value", 100)
+            QtGui.QApplication.processEvents()
+            time.sleep(0.5)
             Workflow.InProgress = False
-#                 self.ui.stopExperimentButton.setEnabled(False)
-#                 self.ui.startExperimentButton.setEnabled(True)
+            self.ui.stopExperimentButton.setEnabled(False)
+            QtGui.QApplication.processEvents()
+            time.sleep(0.5)
+            self.ui.startExperimentButton.setEnabled(True)
+            QtGui.QApplication.processEvents()
+            time.sleep(0.5)
 
 class StopRunnable(QRunnable):
     def run(self):

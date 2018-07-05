@@ -38,13 +38,14 @@ class Workflow:
     '''
     Start to do the experiment
     '''    
-    def start_to_work(self, call_back):
+    def start_to_work(self, ui, call_back):
         if self.check_experiment_conditions() == False:
-            #show_message("Please prepare your experiment parameters.", "Error")
+            ui.com.speak_message.emit("Please prepare your experiment parameters.", "Error")
+            time.sleep(1)
             print("Please prepare your experiment parameters.")
             return
         
-        print("Really")   
+        print("Really started")   
         self.afm_controller.prepareAfmExperiment()
         points = self.afm_controller.getPoints()
         lines = self.afm_controller.getLines()
@@ -53,7 +54,7 @@ class Workflow:
             self.setpoint_matrix = read_excel_file(self.setpoint_matrix_file_path, self.setpoint_matrix_sheet_name)
             result, row_column = validate_matrix(self.setpoint_matrix, points, lines)
             if result == False:
-                #show_message("Setpoint Matrix is not correct. Please check it.", "Error")
+                ui.com.speak_message.emit("Setpoint Matrix is not correct. Please check it.", "Error")
                 print("Setpoint Matrix is not correct. Please check it.")
                 self.logger.error("Row_Column->" + row_column)
                 return
@@ -65,6 +66,7 @@ class Workflow:
                     return
                 if call_back != None:
                     call_back("(" + str(j) +", " + str(i) + ")")
+                    time.sleep(0.5)
                 self.logger.info("i=" + str(i) + ", j=" + str(j))
                 self.afm_controller.moveTip(j, i, self.settling_time_for_move)
                 if self.enable_setpoint_matrix == True:
