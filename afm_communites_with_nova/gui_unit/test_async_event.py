@@ -6,46 +6,75 @@ Created on Jun 28, 2018
 '''
 import time
 import sys
+from functools import partial 
 from PySide import QtCore, QtGui
-from PySide.QtCore import QRunnable, QThreadPool, QCoreApplication
+from PySide.QtCore import QObject, QRunnable, QThreadPool, QCoreApplication, Signal, Slot
+
+@Slot(str) 
+def speak_message(value, typeInfo = "Info"):
+    msgBox = QtGui.QMessageBox()
+    msgBox.setIcon(QtGui.QMessageBox.Information)
+    msgBox.setText(typeInfo + ": " + str(value))
+    msgBox.exec_()
+
+class Communicate(QObject):                                                   
+    speak_number = Signal()
+    speak_message = Signal(str, str)
 
 class Ui_Form(object):
     inProgress = True
     class StartRunnable(QRunnable):
+        def __init__(self, ui):
+            self.ui = ui
+            QRunnable.__init__(self)
+            
         def run(self):
             count = 0
+            #self.ui.someone.speak_number.emit()
+            self.ui.someone.speak_message.emit("Yeah", "Info")
             Ui_Form.inProgress = True
-            app = QCoreApplication.instance()
             while Ui_Form.inProgress == True:
                 print("C Increasing")
                 time.sleep(1)
                 count += 1
-            app.quit()
+                
     class StopRunnable(QRunnable):
+        def __init__(self, ui):
+            self.ui = ui
+            QRunnable.__init__(self)
+            
         def run(self):
             Ui_Form.inProgress = False
     
-    def start_thread_func(self):
-        runnable = Ui_Form.StartRunnable()
+    def start_thread_func(self, ui):
+        runnable = Ui_Form.StartRunnable(ui)
         QThreadPool.globalInstance().start(runnable)
         
-    def stop_thread_func(self):
-        runnable = Ui_Form.StopRunnable()
+    def stop_thread_func(self, ui):
+        runnable = Ui_Form.StopRunnable(ui)
         QThreadPool.globalInstance().start(runnable)
+    
+    @Slot(str)
+    def sayHello(self):
+        self.stop_button.setText("AAA")
+        QtGui.QApplication.processEvents()
+        time.sleep(2)
     
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(500, 400)
-        
+        self.someone = Communicate()
+        self.someone.speak_number.connect(self.sayHello)
+        self.someone.speak_message.connect(speak_message)
         self.start_button = QtGui.QPushButton(Form)
         self.start_button.setGeometry(QtCore.QRect(140, 170, 100, 40))
         self.start_button.setObjectName("Select File")
-        self.start_button.clicked.connect(self.start_thread_func)
+        self.start_button.clicked.connect(partial(self.start_thread_func, self))
         
         self.stop_button = QtGui.QPushButton(Form)
         self.stop_button.setGeometry(QtCore.QRect(260, 170, 100, 40))
         self.stop_button.setObjectName("Select Path")
-        self.stop_button.clicked.connect(self.stop_thread_func)
+        self.stop_button.clicked.connect(partial(self.stop_thread_func, self))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -59,7 +88,7 @@ def test():
     app = QtGui.QApplication(sys.argv)
     Form = QtGui.QWidget()
     ui = Ui_Form()
-    app.aboutToQuit.connect(ui.stop_thread_func)
+    app.aboutToQuit.connect(partial(ui.stop_thread_func, ui))
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())

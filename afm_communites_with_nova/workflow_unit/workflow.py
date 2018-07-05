@@ -14,10 +14,10 @@ from tools.config import ConfigureFile
 TIMES_LIMIT = 1
 
 class Workflow:
+    InProgress = False
     def __init__(self):
         self.logger = LogSystem.get_log("Workflow")
         self.conf = ConfigureFile.get_config()
-        self.inProgress = False
         self.afm_controller =  AFMController()
         self.state_path = None
         self.state_file_name = self.conf.get('DEFAULT', 'StateFileName')
@@ -40,9 +40,11 @@ class Workflow:
     '''    
     def start_to_work(self, call_back):
         if self.check_experiment_conditions() == False:
-            show_message("Please prepare your experiment parameters.", "Error")
+            #show_message("Please prepare your experiment parameters.", "Error")
+            print("Please prepare your experiment parameters.")
             return
-            
+        
+        print("Really")   
         self.afm_controller.prepareAfmExperiment()
         points = self.afm_controller.getPoints()
         lines = self.afm_controller.getLines()
@@ -58,10 +60,10 @@ class Workflow:
         for i in range(lines):
             for j in range(points):
                 
-                if self.inProgress == False: # Stop button pressed
+                if Workflow.InProgress == False: # Stop button pressed
                     return
-                
-                call_back("(" + str(j) +", " + str(i) + ")")
+                if call_back != None:
+                    call_back("(" + str(j) +", " + str(i) + ")")
                 self.logger.info("i=" + str(i) + ", j=" + str(j))
                 self.afm_controller.moveTip(j, i, self.settling_time_for_move)
                 if self.enable_setpoint_matrix == True:
@@ -70,7 +72,7 @@ class Workflow:
                     self.afm_controller.doApproach(self.settling_time_for_approach) # default set-point
                 self.afm_controller.sendTriggerSingal(self.high_vol, self.low_vol, self.holding_time)
                 acc_time = 0
-                while self.inProgress == False and acc_time > TIMES_LIMIT and os.path.isfile(file_path) != True:
+                while Workflow.InProgress == False and acc_time > TIMES_LIMIT and os.path.isfile(file_path) != True:
                     time.sleep(self.state_check_interval)
                     acc_time += 1
                 
@@ -148,10 +150,3 @@ class Workflow:
     
     def get_holding_time(self):
         return self.holding_time
-    
-    def set_inProgress(self, value):
-        self.inProgress = value
-    
-    def get_inProgress(self):
-        return self.inProgress
-    
