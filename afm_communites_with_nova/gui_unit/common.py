@@ -4,8 +4,11 @@ Created on Jun 28, 2018
 
 @author: xiongan2
 '''
+import time
 from PySide import QtGui
+from PySide.QtCore import QObject, Signal, QRunnable, QThreadPool, Slot
 from os import path
+from workflow_unit.workflow import Workflow
 
 def check_file_suffix(file_path, file_suffix):
     result = get_file_suffix(file_path)
@@ -62,10 +65,68 @@ def show_message(value, message_type='Info'):
         msgBox.setIcon(QtGui.QMessageBox.Warning)
     elif message_type.lower() == "error":
         msgBox.setIcon(QtGui.QMessageBox.Critical)
-    
+
     msgBox.setText(str(value))
     msgBox.exec_()
 
 class PathWrapper:
     def __init__(self, path = None):
         self.value = path
+        
+@Slot(str)
+def speak_message(value, message_type='Info'):
+    msgBox = QtGui.QMessageBox()
+    msgBox.setWindowTitle(message_type)
+    windowIcon = QtGui.QIcon()
+    windowIcon.addPixmap(QtGui.QPixmap("../resources/robot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+    msgBox.setWindowIcon(windowIcon)
+    
+    msgBox.setIcon(QtGui.QMessageBox.Information)
+    if message_type.lower() == "warning":
+        msgBox.setIcon(QtGui.QMessageBox.Warning)
+    elif message_type.lower() == "error":
+        msgBox.setIcon(QtGui.QMessageBox.Critical)
+    msgBox.setText(str(value))
+    msgBox.exec_()
+    
+class Communicate(QObject):                                                   
+    speak_message = Signal(str, str)
+
+class StartRunnable(QRunnable):
+    def __init__(self, ui):
+        self.ui = ui
+        QRunnable.__init__(self)
+        
+    def run(self):
+        print("Start Experiment")
+        if Workflow.InProgress == True:
+            return
+        
+#             Workflow.InProgress = True
+#             self.ui.startExperimentButton.setEnabled(False)
+#             self.ui.stopExperimentButton.setEnabled(True)
+#             self.ui.progressBar.setProperty("value", 0)
+        try:
+            self.ui.com.speak_message.emit("Experiment started...", "Info")
+            time.sleep(4)
+            #self.ui.start_to_run()
+        finally:
+            self.ui.progressBar.setProperty("value", 100)
+            Workflow.InProgress = False
+#                 self.ui.stopExperimentButton.setEnabled(False)
+#                 self.ui.startExperimentButton.setEnabled(True)
+
+class StopRunnable(QRunnable):
+    def run(self):
+        Workflow.InProgress = False
+        print("Stop Experiment")
+
+def start_thread_func(ui):
+    runnable = StartRunnable(ui)
+    QThreadPool.globalInstance().start(runnable)
+    
+
+        
+def stop_thread_func():
+    runnable = StopRunnable()
+    QThreadPool.globalInstance().start(runnable)

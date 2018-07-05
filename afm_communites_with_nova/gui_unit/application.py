@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from PySide import QtCore, QtGui
 from functools import partial
-from gui_unit.common import PathWrapper, select_directory, select_file, show_message, check_file_suffix
+from gui_unit.common import PathWrapper, select_directory, select_file, show_message, check_file_suffix, Communicate, \
+    speak_message, start_thread_func, stop_thread_func
+    
 from workflow_unit.workflow import Workflow
 from tools.config import ConfigureFile
 
@@ -22,6 +24,8 @@ class Ui_Form(object):
         '''
         self.workflow = Workflow()
         self.conf = ConfigureFile.get_config()
+        self.com = Communicate()
+        self.com.speak_message.connect(speak_message)
         '''Experiment Settings region
         '''
         self.experimentSettingsGroupBox = QtGui.QGroupBox(Form)
@@ -59,7 +63,7 @@ class Ui_Form(object):
         self.stateFileLabel = QtGui.QLabel(self.stateGroupBox)
         self.stateFileLabel.setGeometry(QtCore.QRect(40, 90, 90, 16))
         self.stateFileLabel.setStyleSheet("font: 8pt \"Times New Roman\";")
-        self.stateFileLabel.setObjectName("checkIntervalLabel")
+        self.stateFileLabel.setObjectName("stateFileLabel")
         
         self.stateFileLineEdit = QtGui.QLineEdit(self.stateGroupBox)
         self.stateFileLineEdit.setGeometry(QtCore.QRect(110, 90, 151, 20))
@@ -227,7 +231,7 @@ class Ui_Form(object):
         self.startExperimentButton.setCursor(QtCore.Qt.ArrowCursor)
         self.startExperimentButton.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";")
         self.startExperimentButton.setObjectName("startExperimentButton")
-        self.startExperimentButton.clicked.connect(self.startExperimentButtonClicked) # Click event
+        self.startExperimentButton.clicked.connect(partial(start_thread_func, self)) # Click event
         
         self.stopExperimentButton = QtGui.QPushButton(Form)
         self.stopExperimentButton.setGeometry(QtCore.QRect(530, 530, 301, 41))
@@ -235,7 +239,7 @@ class Ui_Form(object):
         self.stopExperimentButton.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";")
         self.stopExperimentButton.setObjectName("stopExperimentButton")
         self.stopExperimentButton.setEnabled(False)
-        self.stopExperimentButton.clicked.connect(self.stopExperimentButtonClicked) # Click event
+        self.stopExperimentButton.clicked.connect(stop_thread_func) # Click event
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -444,43 +448,18 @@ class Ui_Form(object):
             self.holdingTimeLineEdit.textChanged.disconnect(self.holdingTimeLineEditTextChanged)
             self.holdingTimeLineEdit.setText(str(self.workflow.get_holding_time()))
             self.holdingTimeLineEdit.textChanged.connect(self.holdingTimeLineEditTextChanged)
-    
+
     def setPositionInfoLabelText(self, content):
-        style = "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600; color:#0000ff;\">" + content + "</span></p></body></html>"
-        textContent = QtGui.QApplication.translate("Form", style, None, QtGui.QApplication.UnicodeUTF8)
-        self.positionInfoLabel.setText(textContent)
+        self.positionInfoLabel.setText(content)
         QtGui.QApplication.processEvents()
     
-    def startExperimentButtonClicked(self):
-        if self.workflow.get_inProgress() is True:
-            return
-        
-        self.workflow.set_inProgress(True)
-        self.startExperimentButton.setEnabled(False)
-        self.stopExperimentButton.setEnabled(True)
-        self.progressBar.setProperty("value", 0)
-        
-        try:
-            show_message("Experiment started...")
-            self.workflow.start_to_work(self.setPositionInfoLabelText)
-        finally:
-            self.progressBar.setProperty("value", 100)
-            self.workflow.set_inProgress(False)
-            self.positionInfoLabel.setText("")
-            self.stopExperimentButton.setEnabled(False)
-            self.startExperimentButton.setEnabled(True)
-    
-    def stopExperimentButtonClicked(self):
-        if self.workflow.get_inProgress() is True:
-            self.workflow.set_inProgress(False)
-
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
+    app.aboutToQuit.connect(stop_thread_func)
     Form = QtGui.QWidget()
     ui = Ui_Form()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec_())
-    
     

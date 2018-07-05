@@ -11,7 +11,7 @@ from PySide import QtCore, QtGui
 from PySide.QtCore import QObject, QRunnable, QThreadPool, QCoreApplication, Signal, Slot
 
 @Slot(str) 
-def speak_message(value, typeInfo = "Info"):
+def demo_speak_message(value, typeInfo = "Info"):
     msgBox = QtGui.QMessageBox()
     msgBox.setIcon(QtGui.QMessageBox.Information)
     msgBox.setText(typeInfo + ": " + str(value))
@@ -65,7 +65,7 @@ class Ui_Form(object):
         Form.resize(500, 400)
         self.someone = Communicate()
         self.someone.speak_number.connect(self.sayHello)
-        self.someone.speak_message.connect(speak_message)
+        self.someone.speak_message.connect(demo_speak_message)
         self.start_button = QtGui.QPushButton(Form)
         self.start_button.setGeometry(QtCore.QRect(140, 170, 100, 40))
         self.start_button.setObjectName("Select File")

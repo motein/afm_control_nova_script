@@ -8,7 +8,7 @@ import time
 import os
 from workflow_unit.controller import AFMController
 from workflow_unit.excel import read_excel_file, validate_matrix
-from gui_unit.common import show_message
+# from gui_unit.common import show_message
 from tools.log import LogSystem
 from tools.config import ConfigureFile
 TIMES_LIMIT = 1
@@ -53,7 +53,8 @@ class Workflow:
             self.setpoint_matrix = read_excel_file(self.setpoint_matrix_file_path, self.setpoint_matrix_sheet_name)
             result, row_column = validate_matrix(self.setpoint_matrix, points, lines)
             if result == False:
-                show_message("Setpoint Matrix is not correct. Please check it.", "Error")
+                #show_message("Setpoint Matrix is not correct. Please check it.", "Error")
+                print("Setpoint Matrix is not correct. Please check it.")
                 self.logger.error("Row_Column->" + row_column)
                 return
         file_path = self.state_path + '/' + self.state_file_name
