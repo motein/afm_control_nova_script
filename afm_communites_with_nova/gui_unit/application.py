@@ -69,7 +69,7 @@ class Ui_Form(object):
         self.stateFileLineEdit.setGeometry(QtCore.QRect(110, 90, 151, 20))
         self.stateFileLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.stateFileLineEdit.setObjectName("checkIntervalLineEdit")
-        self.stateFileLineEdit.setText(self.conf.get('DEFAULT', 'StateFileName'))
+        self.stateFileLineEdit.setText(self.conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'StateFileName'))
         self.stateFileLineEdit.textChanged.connect(self.stateFileLineEditTextChanged)
         
         self.checkIntervalLabel = QtGui.QLabel(self.stateGroupBox)
@@ -81,7 +81,7 @@ class Ui_Form(object):
         self.checkIntervalLineEdit.setGeometry(QtCore.QRect(110, 130, 151, 20))
         self.checkIntervalLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.checkIntervalLineEdit.setObjectName("checkIntervalLineEdit")
-        self.checkIntervalLineEdit.setText(self.conf.get('DEFAULT', 'StateCheckInterval'))
+        self.checkIntervalLineEdit.setText(self.conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'StateCheckInterval'))
         self.checkIntervalLineEdit.textChanged.connect(self.checkIntervalLineEditTextChanged)
         '''Set-point Matrix Settings region
         '''
@@ -97,7 +97,7 @@ class Ui_Form(object):
         self.enableMatrixSetpoingRadio.setGeometry(QtCore.QRect(20, 40, 161, 16))
         self.enableMatrixSetpoingRadio.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.enableMatrixSetpoingRadio.setObjectName("enableMatrixSetpoingRadio")
-        self.enableMatrixSetpoingRadio.setChecked(self.conf.getboolean('DEFAULT', 'EnableSetpointMatrix'))
+        self.enableMatrixSetpoingRadio.setChecked(self.conf.getboolean('EXPERIMENT_SETTINGS_DEFAULT', 'EnableSetpointMatrix'))
         self.enableMatrixSetpoingRadio.toggled.connect(self.enableMatrixSetpoingChanged)
         
         self.filePathLabel = QtGui.QLabel(self.setpointSettingsGroupBox)
@@ -156,7 +156,7 @@ class Ui_Form(object):
         self.approachTimeLineEdit.setGeometry(QtCore.QRect(180, 50, 161, 20))
         self.approachTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.approachTimeLineEdit.setObjectName("approachTimeLineEdit")
-        self.approachTimeLineEdit.setText(self.conf.get('DEFAULT', 'SettlingTimeForApproach'))
+        self.approachTimeLineEdit.setText(self.conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'SettlingTimeForApproach'))
         self.approachTimeLineEdit.textChanged.connect(self.approachTimeLineEditTextChanged)
 
         self.moveSettlingTime = QtGui.QLabel(self.timeGroupBox)
@@ -168,7 +168,7 @@ class Ui_Form(object):
         self.moveTimeLineEdit.setGeometry(QtCore.QRect(180, 90, 161, 20))
         self.moveTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.moveTimeLineEdit.setObjectName("moveTimeLineEdit")
-        self.moveTimeLineEdit.setText(self.conf.get('DEFAULT', 'SettlingTimeForMove'))
+        self.moveTimeLineEdit.setText(self.conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'SettlingTimeForMove'))
         self.moveTimeLineEdit.textChanged.connect(self.moveTimeLineEditTextChanged)
         '''Trigger Signal Settings region
         '''
@@ -186,7 +186,7 @@ class Ui_Form(object):
         self.highVolLineEdit.setGeometry(QtCore.QRect(180, 50, 161, 20))
         self.highVolLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.highVolLineEdit.setObjectName("highVolLineEdit")
-        self.highVolLineEdit.setText(self.conf.get('DEFAULT', 'HighVoltage'))
+        self.highVolLineEdit.setText(self.conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'HighVoltage'))
         self.highVolLineEdit.textChanged.connect(self.highVolLineEditTextChanged)
 
         self.lowVolLabel = QtGui.QLabel(self.triggerSettingsGroupBox)
@@ -198,7 +198,7 @@ class Ui_Form(object):
         self.lowVolLineEdit.setGeometry(QtCore.QRect(180, 90, 161, 20))
         self.lowVolLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.lowVolLineEdit.setObjectName("lowVolLineEdit")
-        self.lowVolLineEdit.setText(self.conf.get('DEFAULT', 'LowVoltage'))
+        self.lowVolLineEdit.setText(self.conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'LowVoltage'))
         self.lowVolLineEdit.textChanged.connect(self.lowVolLineEditTextChanged)
 
         self.holdingTimeLabel = QtGui.QLabel(self.triggerSettingsGroupBox)
@@ -210,7 +210,7 @@ class Ui_Form(object):
         self.holdingTimeLineEdit.setGeometry(QtCore.QRect(180, 130, 161, 20))
         self.holdingTimeLineEdit.setStyleSheet("font: 8pt \"Times New Roman\";")
         self.holdingTimeLineEdit.setObjectName("holdingTimeLineEdit")
-        self.holdingTimeLineEdit.setText(self.conf.get('DEFAULT', 'HoldingTime'))
+        self.holdingTimeLineEdit.setText(self.conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'HoldingTime'))
         self.holdingTimeLineEdit.textChanged.connect(self.holdingTimeLineEditTextChanged)
         '''Progress region
         '''

@@ -11,7 +11,6 @@ from workflow_unit.excel import read_excel_file, validate_matrix
 # from gui_unit.common import show_message
 from tools.log import LogSystem
 from tools.config import ConfigureFile
-TIMES_LIMIT = 1
 
 class Workflow:
     InProgress = False
@@ -19,29 +18,35 @@ class Workflow:
         self.logger = LogSystem.get_log("Workflow")
         self.conf = ConfigureFile.get_config()
         self.afm_controller =  AFMController()
+        
+        self.short_delay = self.conf.getfloat('GUI_DELAY_DEFAULT', 'ShortDelay')
+        self.mid_delay = self.conf.getfloat('GUI_DELAY_DEFAULT', 'MiddleDelay')
+        
+        self.check_time_limit = self.conf.getint('EXPERIMENT_SETTINGS_DEFAULT', 'CheckTimesLimit')
+        
         self.state_path = None
-        self.state_file_name = self.conf.get('DEFAULT', 'StateFileName')
+        self.state_file_name = self.conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'StateFileName')
         # Set-point Matrix
-        self.enable_setpoint_matrix = self.conf.getboolean('DEFAULT', 'EnableSetpointMatrix')
+        self.enable_setpoint_matrix = self.conf.getboolean('EXPERIMENT_SETTINGS_DEFAULT', 'EnableSetpointMatrix')
         self.setpoint_matrix_file_path = None
         self.setpoint_matrix_sheet_name = None
         self.setpoint_matrix = None
         # Settling time
-        self.settling_time_for_approach = self.conf.getfloat('DEFAULT', 'SettlingTimeForApproach')
-        self.settling_time_for_move = self.conf.getfloat('DEFAULT', 'SettlingTimeForMove') 
+        self.settling_time_for_approach = self.conf.getfloat('EXPERIMENT_SETTINGS_DEFAULT', 'SettlingTimeForApproach')
+        self.settling_time_for_move = self.conf.getfloat('EXPERIMENT_SETTINGS_DEFAULT', 'SettlingTimeForMove') 
         # Interval for checking state file
-        self.state_check_interval = self.conf.getfloat('DEFAULT', 'StateCheckInterval') # default 2s
+        self.state_check_interval = self.conf.getfloat('EXPERIMENT_SETTINGS_DEFAULT', 'StateCheckInterval') # default 2s
         # Signal to trigger
-        self.high_vol = self.conf.getfloat('DEFAULT', 'HighVoltage')
-        self.low_vol = self.conf.getfloat('DEFAULT', 'LowVoltage')
-        self.holding_time = self.conf.getfloat('DEFAULT', 'HoldingTime') # time of holding high voltage
+        self.high_vol = self.conf.getfloat('EXPERIMENT_SETTINGS_DEFAULT', 'HighVoltage')
+        self.low_vol = self.conf.getfloat('EXPERIMENT_SETTINGS_DEFAULT', 'LowVoltage')
+        self.holding_time = self.conf.getfloat('EXPERIMENT_SETTINGS_DEFAULT', 'HoldingTime') # time of holding high voltage
     '''
     Start to do the experiment
     '''    
     def start_to_work(self, ui, call_back):
         if self.check_experiment_conditions() == False:
             ui.com.speak_message.emit("Please prepare your experiment parameters.", "Error")
-            time.sleep(1)
+            time.sleep(self.mid_delay)
             print("Please prepare your experiment parameters.")
             return
         
@@ -55,6 +60,7 @@ class Workflow:
             result, row_column = validate_matrix(self.setpoint_matrix, points, lines)
             if result == False:
                 ui.com.speak_message.emit("Setpoint Matrix is not correct. Please check it.", "Error")
+                time.sleep(self.mid_delay)
                 print("Setpoint Matrix is not correct. Please check it.")
                 self.logger.error("Row_Column->" + row_column)
                 return
@@ -66,7 +72,7 @@ class Workflow:
                     return
                 if call_back != None:
                     call_back("(" + str(j) +", " + str(i) + ")")
-                    time.sleep(0.5)
+                    time.sleep(self.short_delay)
                 self.logger.info("i=" + str(i) + ", j=" + str(j))
                 self.afm_controller.moveTip(j, i, self.settling_time_for_move)
                 if self.enable_setpoint_matrix == True:
@@ -75,7 +81,7 @@ class Workflow:
                     self.afm_controller.doApproach(self.settling_time_for_approach) # default set-point
                 self.afm_controller.sendTriggerSingal(self.high_vol, self.low_vol, self.holding_time)
                 acc_time = 0
-                while Workflow.InProgress == False and acc_time > TIMES_LIMIT and os.path.isfile(file_path) != True:
+                while Workflow.InProgress == False and acc_time > self.check_time_limit and os.path.isfile(file_path) != True:
                     time.sleep(self.state_check_interval)
                     acc_time += 1
                 

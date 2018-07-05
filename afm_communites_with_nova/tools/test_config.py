@@ -11,7 +11,7 @@ from tools.config import ConfigureFile
 class TestGetConfigMethods(unittest.TestCase):
     def test_get_conf(self):
         conf = ConfigureFile.get_config()
-        print(conf.get('DEFAULT', 'StateCheckInterval'))
+        print(conf.get('EXPERIMENT_SETTINGS_DEFAULT', 'StateCheckInterval'))
     
 if __name__ == '__main__':
     unittest.main()

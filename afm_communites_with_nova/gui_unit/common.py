@@ -9,6 +9,7 @@ from PySide import QtGui
 from PySide.QtCore import QObject, Signal, QRunnable, QThreadPool, Slot
 from os import path
 from workflow_unit.workflow import Workflow
+from tools.config import ConfigureFile
 
 def check_file_suffix(file_path, file_suffix):
     result = get_file_suffix(file_path)
@@ -88,7 +89,6 @@ def speak_message(value, message_type='Info'):
         msgBox.setIcon(QtGui.QMessageBox.Critical)
     msgBox.setText(str(value))
     msgBox.exec_()
-    time.sleep(1)
     
 class Communicate(QObject):                                                   
     speak_message = Signal(str, str)
@@ -96,6 +96,10 @@ class Communicate(QObject):
 class StartRunnable(QRunnable):
     def __init__(self, ui):
         self.ui = ui
+        self.conf = ConfigureFile.get_config()
+        self.short_delay = self.conf.getfloat('GUI_DELAY_DEFAULT', 'ShortDelay')
+        self.mid_delay = self.conf.getfloat('GUI_DELAY_DEFAULT', 'MiddleDelay')
+        
         QRunnable.__init__(self)
         
     def run(self):
@@ -106,29 +110,29 @@ class StartRunnable(QRunnable):
         Workflow.InProgress = True
         self.ui.startExperimentButton.setEnabled(False)
         QtGui.QApplication.processEvents()
-        time.sleep(0.5)
+        time.sleep(self.short_delay)
         self.ui.stopExperimentButton.setEnabled(True)
         QtGui.QApplication.processEvents()
-        time.sleep(0.5)
+        time.sleep(self.short_delay)
         self.ui.progressBar.setProperty("value", 0)
         QtGui.QApplication.processEvents()
-        time.sleep(0.5)
+        time.sleep(self.short_delay)
         
         try:
             self.ui.com.speak_message.emit("Experiment started...", "Info")
-            time.sleep(1)
+            time.sleep(self.mid_delay )
             self.ui.workflow.start_to_work(self.ui, self.ui.setPositionInfoLabelText)
         finally:
             self.ui.progressBar.setProperty("value", 100)
             QtGui.QApplication.processEvents()
-            time.sleep(0.5)
+            time.sleep(self.short_delay)
             Workflow.InProgress = False
             self.ui.stopExperimentButton.setEnabled(False)
             QtGui.QApplication.processEvents()
-            time.sleep(0.5)
+            time.sleep(self.short_delay)
             self.ui.startExperimentButton.setEnabled(True)
             QtGui.QApplication.processEvents()
-            time.sleep(0.5)
+            time.sleep(self.short_delay)
 
 class StopRunnable(QRunnable):
     def run(self):
