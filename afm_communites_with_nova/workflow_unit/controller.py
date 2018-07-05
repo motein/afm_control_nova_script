@@ -8,7 +8,7 @@ import picoscript
 import time
 from tools.log import LogSystem
 from tools.config import ConfigureFile
-    
+
 class AFMController:
     def __init__(self):
         self.logger = LogSystem.get_log("AFMController")

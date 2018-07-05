@@ -6,9 +6,9 @@ Created on Jun 28, 2018
 '''
 import time
 import sys
-from functools import partial 
+from functools import partial
 from PySide import QtCore, QtGui
-from PySide.QtCore import QObject, QRunnable, QThreadPool, QCoreApplication, Signal, Slot
+from PySide.QtCore import QObject, QRunnable, QThreadPool, Signal, Slot
 
 @Slot(str) 
 def demo_speak_message(value, typeInfo = "Info"):

@@ -8,7 +8,6 @@ import time
 import os
 from workflow_unit.controller import AFMController
 from workflow_unit.excel import read_excel_file, validate_matrix
-# from gui_unit.common import show_message
 from tools.log import LogSystem
 from tools.config import ConfigureFile
 

@@ -142,9 +142,7 @@ class StopRunnable(QRunnable):
 def start_thread_func(ui):
     runnable = StartRunnable(ui)
     QThreadPool.globalInstance().start(runnable)
-    
 
-        
 def stop_thread_func():
     runnable = StopRunnable()
     QThreadPool.globalInstance().start(runnable)
