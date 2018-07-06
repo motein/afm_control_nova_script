@@ -10,6 +10,7 @@ from PySide.QtCore import QObject, Signal, QRunnable, QThreadPool, Slot
 from os import path
 from workflow_unit.workflow import Workflow
 from tools.config import ConfigureFile
+from tools.log import LogSystem
 
 def check_file_suffix(file_path, file_suffix):
     result = get_file_suffix(file_path)
@@ -95,6 +96,7 @@ class Communicate(QObject):
 
 class StartRunnable(QRunnable):
     def __init__(self, ui):
+        self.logger = LogSystem.get_log("StartRunnable")
         self.ui = ui
         self.conf = ConfigureFile.get_config()
         self.short_delay = self.conf.getfloat('GUI_DELAY_DEFAULT', 'ShortDelay')
@@ -104,6 +106,7 @@ class StartRunnable(QRunnable):
         
     def run(self):
         print("Start Experiment")
+        self.logger.info("Start Experiment")
         if Workflow.InProgress == True:
             return
         
@@ -122,6 +125,9 @@ class StartRunnable(QRunnable):
             self.ui.com.speak_message.emit("Experiment started...", "Info")
             time.sleep(self.mid_delay )
             self.ui.workflow.start_to_work(self.ui, self.ui.setPositionInfoLabelText, self.ui.updateProgress)
+        except Exception as e:
+            print(e.message)
+            self.logger.error(e.message)
         finally:
             self.ui.progressBar.setProperty("value", 100)
             QtGui.QApplication.processEvents()
@@ -135,9 +141,13 @@ class StartRunnable(QRunnable):
             time.sleep(self.short_delay)
 
 class StopRunnable(QRunnable):
+    def __init__(self):
+        self.logger = LogSystem.get_log("StopRunnable")
+        QRunnable.__init__(self)
     def run(self):
         Workflow.InProgress = False
         print("Stop Experiment")
+        self.logger.info("Stop Experiment")
 
 def start_thread_func(ui):
     runnable = StartRunnable(ui)

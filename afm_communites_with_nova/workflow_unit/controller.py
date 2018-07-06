@@ -18,6 +18,7 @@ class AFMController:
         self.setpoint = None
         self.approach_status_delay = self.conf.getfloat('STATUS_DELAY_DEFAULT', 'ApproachStatusDelay')
         self.move_status_delay = self.conf.getfloat('STATUS_DELAY_DEFAULT', 'MoveStatusDelay')
+        self.aux_output = self.conf.getint('EXPERIMENT_SETTINGS_DEFAULT', 'AuxOutput')
         
     def prepareAfmExperiment(self):
         self.points = picoscript.GetScanXPixels()
@@ -43,9 +44,21 @@ class AFMController:
         time.sleep(settling_time)
     
     def sendTriggerSingal(self, high_vol, low_vol, holding_time):
-        picoscript.SetOutputAux1(high_vol) # Trigger a signal
-        time.sleep(holding_time)
-        picoscript.SetOutputAux1(low_vol)
+        if self.aux_output == 1:
+            self.logger.info("Aux Output 1.")
+            picoscript.SetOutputAux1(high_vol) # Trigger a signal
+            time.sleep(holding_time)
+            picoscript.SetOutputAux1(low_vol)
+        elif self.aux_output == 2:
+            self.logger.info("Aux Output 2.")
+            picoscript.SetOutputAux2(high_vol) # Trigger a signal
+            time.sleep(holding_time)
+            picoscript.SetOutputAux2(low_vol)
+        else:
+            self.logger.info("Aux Output 1.")
+            picoscript.SetOutputAux1(high_vol) # Trigger a signal
+            time.sleep(holding_time)
+            picoscript.SetOutputAux1(low_vol)
         
     def getPoints(self):
         return self.points

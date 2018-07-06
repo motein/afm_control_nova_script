@@ -47,9 +47,11 @@ class Workflow:
             ui.com.speak_message.emit("Please prepare your experiment parameters.", "Error")
             time.sleep(self.mid_delay)
             print("Please prepare your experiment parameters.")
+            self.logger.error("Really started")
             return
         
-        print("Really started")   
+        print("Really started")
+        self.logger.info("Really started")
         self.afm_controller.prepareAfmExperiment()
         points = self.afm_controller.getPoints()
         lines = self.afm_controller.getLines()
@@ -61,7 +63,7 @@ class Workflow:
                 ui.com.speak_message.emit("Setpoint Matrix is not correct. Please check it.", "Error")
                 time.sleep(self.mid_delay)
                 print("Setpoint Matrix is not correct. Please check it.")
-                self.logger.error("Row_Column->" + row_column)
+                self.logger.error("Setpoint Matrix is not correct. Row_Column->" + row_column)
                 return
         file_path = self.state_path + '/' + self.state_file_name
         for i in range(lines):
