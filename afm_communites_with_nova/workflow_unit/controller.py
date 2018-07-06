@@ -18,6 +18,7 @@ class AFMController:
         self.setpoint = None
         self.approach_status_delay = self.conf.getfloat('STATUS_DELAY_DEFAULT', 'ApproachStatusDelay')
         self.move_status_delay = self.conf.getfloat('STATUS_DELAY_DEFAULT', 'MoveStatusDelay')
+        self.withdraw_status_delay = self.conf.getfloat('STATUS_DELAY_DEFAULT', 'WithdrawStatusDelay')
         self.aux_output = self.conf.getint('EXPERIMENT_SETTINGS_DEFAULT', 'AuxOutput')
         
     def prepareAfmExperiment(self):
@@ -36,6 +37,7 @@ class AFMController:
     
     def doWithdraw(self):
         picoscript.MotorWithdraw()
+        time.sleep(self.withdraw_status_delay)
     
     def moveTip(self, fast, slow, settling_time):
         picoscript.SetTipPosition(fast, slow)

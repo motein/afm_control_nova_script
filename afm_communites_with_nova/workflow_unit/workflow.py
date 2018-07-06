@@ -75,13 +75,18 @@ class Workflow:
                     position_callback("(" + str(j) +", " + str(i) + ")")
                     time.sleep(self.short_delay)
                 self.logger.info("i=" + str(i) + ", j=" + str(j))
+                print("i=" + str(i) + ", j=" + str(j))
                 self.afm_controller.moveTip(j, i, self.settling_time_for_move)
+                print("Move Tip")
+                self.logger.info("Move Tip")
                 if self.enable_setpoint_matrix == True:
                     self.afm_controller.doApproach(self.settling_time_for_approach, self.setpoint_matrix[i, j]) # self defined set-point
                 else:
                     self.afm_controller.doApproach(self.settling_time_for_approach) # default set-point
                 self.afm_controller.sendTriggerSingal(self.high_vol, self.low_vol, self.holding_time)
                 acc_time = 0
+                print("Approach")
+                self.logger.info("Approach")
                 while Workflow.InProgress == False and acc_time > self.check_time_limit and os.path.isfile(file_path) != True:
                     time.sleep(self.state_check_interval)
                     acc_time += 1
@@ -90,6 +95,8 @@ class Workflow:
                 progress_callback(progress_value)
                 time.sleep(self.short_delay)
                 self.afm_controller.doWithdraw()
+                print("Withdraw")
+                self.logger.info("Withdraw")
     
     def check_experiment_conditions(self):
         if self.state_path == None or self.state_check_interval == None:
