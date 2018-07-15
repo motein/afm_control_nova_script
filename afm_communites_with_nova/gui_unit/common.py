@@ -11,6 +11,7 @@ from os import path
 from workflow_unit.workflow import Workflow
 from tools.config import ConfigureFile
 from tools.log import LogSystem
+from gui_unit.exceptions import NotConnectException
 
 def check_file_suffix(file_path, file_suffix):
     result = get_file_suffix(file_path)
@@ -93,7 +94,7 @@ def speak_message(value, message_type='Info'):
     
 class Communicate(QObject):                                                   
     speak_message = Signal(str, str)
-
+    
 class StartRunnable(QRunnable):
     def __init__(self, ui):
         self.logger = LogSystem.get_log("StartRunnable")

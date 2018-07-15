@@ -10,6 +10,7 @@ from workflow_unit.controller import AFMController
 from workflow_unit.excel import read_excel_file, validate_matrix
 from tools.log import LogSystem
 from tools.config import ConfigureFile
+from gui_unit.exceptions import NotConnectException
 
 class Workflow:
     InProgress = False
@@ -54,8 +55,9 @@ class Workflow:
         self.logger.info("Really started")
         try:
             self.afm_controller.prepareAfmExperiment()
-        except Exception as e:
-            raise e
+        except Exception:
+            ui.com.speak_message.emit('Perhaps, PicoView is not connected.', "Error")
+            raise NotConnectException()
         points = self.afm_controller.getPoints()
         lines = self.afm_controller.getLines()
         
