@@ -47,12 +47,15 @@ class Workflow:
             ui.com.speak_message.emit("Please prepare your experiment parameters.", "Error")
             time.sleep(self.mid_delay)
             print("Please prepare your experiment parameters.")
-            self.logger.error("Really started")
+            self.logger.error("Please prepare your experiment parameters.")
             return
         
         print("Really started")
         self.logger.info("Really started")
-        self.afm_controller.prepareAfmExperiment()
+        try:
+            self.afm_controller.prepareAfmExperiment()
+        except Exception as e:
+            raise e
         points = self.afm_controller.getPoints()
         lines = self.afm_controller.getLines()
         
