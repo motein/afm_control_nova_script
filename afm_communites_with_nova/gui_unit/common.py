@@ -11,7 +11,6 @@ from os import path
 from workflow_unit.workflow import Workflow
 from tools.config import ConfigureFile
 from tools.log import LogSystem
-from gui_unit.exceptions import NotConnectException
 
 def check_file_suffix(file_path, file_suffix):
     result = get_file_suffix(file_path)
